@@ -1,0 +1,18 @@
+﻿@using Engine;
+
+@switch (State)
+{
+    case PixelStates.Nothing:
+        <div class="pixel"></div>
+        break;
+    case PixelStates.Filled:
+        <div class="pixel pixel-filled"></div>
+        break;
+    case PixelStates.CurrentBlock:
+        <div class="pixel pixel-current-block"></div>
+        break;
+}
+
+@code {
+    [Parameter] public PixelStates State { get; set; }
+}

@@ -1,0 +1,17 @@
+﻿.pixel {
+    width: 10px;
+    height: 10px;
+    background: #c4c4c4;
+}
+
+.pixel-filled {
+    background: #000000;
+}
+
+.pixel-current-block {
+    background: #0000ff;
+}
+
+.field-line {
+    display: flex;
+}

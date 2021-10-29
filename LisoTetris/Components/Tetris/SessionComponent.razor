@@ -1,0 +1,59 @@
+﻿@using Engine;
+
+@if (settingsAccepted)
+{
+    <InfoComponent @ref="infoComp" Score="session.Score" Speed="session.Speed" />
+    <span tabindex="0" @ref="container" @onclick="() => container.FocusAsync()" @onkeydown="KeyHandler">
+        <FieldComponent @ref="fieldComp" FieldState="session.State" />
+    </span>
+}
+else
+{
+    <SettingsComponent @ref="settingsComp" />
+}
+
+@code {
+    private SettingsComponent settingsComp;
+    private FieldComponent fieldComp;
+    private InfoComponent infoComp;
+    private Session session;
+    private bool settingsAccepted = false;
+    private ElementReference container;
+
+    protected override void OnInitialized()
+    {
+        fieldComp = new FieldComponent();
+        infoComp = new InfoComponent();
+        settingsComp = new SettingsComponent();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        settingsComp.Applied += async delegate
+        {
+            session = new Session(settingsComp.Width, settingsComp.Height, 1);
+            settingsAccepted = true;
+            session.FieldUpdated += () => StateHasChanged();
+            await session.StartAsync();
+        };
+    }
+
+    private void KeyHandler(KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "ArrowLeft":
+                session.Control(Direction.Left);
+                break;
+            case "ArrowRight":
+                session.Control(Direction.Right);
+                break;
+            case "ArrowDown":
+                session.Control(Direction.Down);
+                break;
+            case " ":
+                session.Control(Direction.Around);
+                break;
+        }
+    }
+}

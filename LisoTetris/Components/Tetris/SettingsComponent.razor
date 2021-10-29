@@ -1,0 +1,28 @@
+﻿@using Models.Tetris
+
+<EditForm Model="settingsModel" OnValidSubmit="@ApplySettings">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>Width:</p>
+    <InputNumber @bind-Value="settingsModel.Width" />
+    <p>Height:</p>
+    <InputNumber @bind-Value="settingsModel.Height" />
+    <input type="submit" value="Подтвердить" />
+</EditForm>
+
+@code {
+    public event Action Applied;
+
+    public int Width { get; set; }
+    public int Height { get; set; }
+
+    private SettingsModel settingsModel = new SettingsModel();
+
+    private void ApplySettings()
+    {
+        Width = settingsModel.Width;
+        Height = settingsModel.Height;
+        Applied?.Invoke();
+    }
+}
