@@ -6,8 +6,8 @@
     <button @onclick="Pause">Pause</button>
 
     <div tabindex="0" @ref="container" @onclick="() => container.FocusAsync()" @onkeydown="KeyHandler">
-        <p hidden="@(!session.State.IsBlocked)">@message</p>
-        <FieldComponent @ref="fieldComp" FieldState="session.State" />
+        <p hidden="@(!session.FieldState.IsBlocked)">@message</p>
+        <FieldComponent @ref="fieldComp" FieldState="session.FieldState" />
     </div>
 }
 else
@@ -68,14 +68,14 @@ else
 
     private async Task Pause()
     {
-        if (session.State.IsBlocked)
+        if (session.FieldState.IsBlocked)
         {
-            session.State.IsBlocked = false;
+            session.FieldState.IsBlocked = false;
             await session.StartAsync();
         }
         else
         {
-            session.State.IsBlocked = true;
+            session.FieldState.IsBlocked = true;
             message = "Paused";
         }
     }

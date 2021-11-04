@@ -15,7 +15,7 @@ namespace LisoTetris.Components.Tetris.Engine
 
         public bool IsLost { get; private set; } = false;
 
-        public FieldState State { get; set; }
+        public FieldState FieldState { get; set; }
 
         public int Speed { get; set; } = 1;
 
@@ -32,17 +32,17 @@ namespace LisoTetris.Components.Tetris.Engine
         public Session(int fieldWidth, int fieldHeight, int speed)
         {
             Speed = speed;
-            State = new FieldState(fieldWidth, fieldHeight);
+            FieldState = new FieldState(fieldWidth, fieldHeight);
 
-            State.Updated += () => FieldUpdated?.Invoke();
+            FieldState.Updated += () => FieldUpdated?.Invoke();
 
-            State.LineDeleted += delegate
+            FieldState.LineDeleted += delegate
             {
                 Score++;
                 ScoreChanged?.Invoke();
             };
 
-            State.Lost += delegate
+            FieldState.Lost += delegate
             {
                 IsLost = true;
                 Lost?.Invoke();
@@ -53,20 +53,20 @@ namespace LisoTetris.Components.Tetris.Engine
         {
             if (!IsLost)
             {
-                State.IsBlocked = false;
+                FieldState.IsBlocked = false;
                 await Task.Run(async delegate
                 {
-                    while (!State.IsBlocked)
+                    while (!FieldState.IsBlocked)
                     {
-                        State.Update(Direction.Down);
+                        FieldState.Update(Direction.Down);
                         await Task.Delay(1000 / Speed);
                     }
                 });
             }
         }
 
-        public void Stop() => State.IsBlocked = true;
+        public void Stop() => FieldState.IsBlocked = true;
 
-        public void Control(Direction direction) => State.Update(direction);
+        public void Control(Direction direction) => FieldState.Update(direction);
     }
 }
