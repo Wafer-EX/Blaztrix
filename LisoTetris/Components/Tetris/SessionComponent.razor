@@ -3,9 +3,12 @@
 @if (settingsAccepted)
 {
     <InfoComponent @ref="infoComp" Score="session.Score" Speed="session.Speed" />
-    <span tabindex="0" @ref="container" @onclick="() => container.FocusAsync()" @onkeydown="KeyHandler">
+    <button @onclick="Pause">Pause</button>
+
+    <div tabindex="0" @ref="container" @onclick="() => container.FocusAsync()" @onkeydown="KeyHandler">
+        <p hidden="@(!session.State.IsBlocked)">@message</p>
         <FieldComponent @ref="fieldComp" FieldState="session.State" />
-    </span>
+    </div>
 }
 else
 {
@@ -17,7 +20,10 @@ else
     private FieldComponent fieldComp;
     private InfoComponent infoComp;
     private Session session;
+
     private bool settingsAccepted = false;
+
+    private string message;
     private ElementReference container;
 
     protected override void OnInitialized()
@@ -33,7 +39,10 @@ else
         {
             session = new Session(settingsComp.Width, settingsComp.Height, 1);
             settingsAccepted = true;
+
             session.FieldUpdated += () => StateHasChanged();
+            session.Lost += () => message = "You are lost";
+
             await session.StartAsync();
         };
     }
@@ -54,6 +63,20 @@ else
             case " ":
                 session.Control(Direction.Around);
                 break;
+        }
+    }
+
+    private async Task Pause()
+    {
+        if (session.State.IsBlocked)
+        {
+            session.State.IsBlocked = false;
+            await session.StartAsync();
+        }
+        else
+        {
+            session.State.IsBlocked = true;
+            message = "Paused";
         }
     }
 }
