@@ -18,13 +18,17 @@
 }
 
 @code {
+    private FieldState fieldState;
     private PixelStates[,] displayedData;
 
-    [Parameter] public FieldState FieldState { get; set; }
-
-    protected override void OnParametersSet()
+    [Parameter] public FieldState FieldState
     {
-        if (FieldState != null)
-            displayedData = (PixelStates[,])FieldState;
+        get => fieldState;
+        set
+        {
+            fieldState = value;
+            if (fieldState != null)
+                displayedData = (PixelStates[,])fieldState;
+        }
     }
 }
