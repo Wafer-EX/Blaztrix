@@ -50,7 +50,7 @@ namespace LisoTetris.Components.Tetris.Engine
             Blocks.Enqueue(block);
 
             CurrentBlock ??= new Block(Field.GetLength(0)).Generate();
-            if (!CanBePlaced(0, 0, block.Figure))
+            if (!CanBePlaced(block.Figure))
             {
                 Lost?.Invoke();
                 IsBlocked = true;
@@ -68,15 +68,15 @@ namespace LisoTetris.Components.Tetris.Engine
             switch (direction)
             {
                 case Direction.Left:
-                    if (position.X != 0 && CanBePlaced(-1, 0, CurrentBlock.Figure))
+                    if (position.X != 0 && CanBePlaced(CurrentBlock.Figure, offsetX: -1))
                         position.X -= 1;
                     break;
                 case Direction.Right:
-                    if (position.X != fieldWidth - figureWidth && CanBePlaced(1, 0, CurrentBlock.Figure))
+                    if (position.X != fieldWidth - figureWidth && CanBePlaced(CurrentBlock.Figure, offsetX: 1))
                         position.X += 1;
                     break;
                 case Direction.Down:
-                    if (position.Y != fieldHeight - figureHeight && CanBePlaced(0, 1, CurrentBlock.Figure))
+                    if (position.Y != fieldHeight - figureHeight && CanBePlaced(CurrentBlock.Figure, offsetY: 1))
                         position.Y += 1;
                     else PlaceBlock();
                     break;
@@ -102,7 +102,7 @@ namespace LisoTetris.Components.Tetris.Engine
                 }
             }
 
-            if (CanBePlaced(offsetX, offsetY, newFigure))
+            if (CanBePlaced(newFigure, offsetX, offsetY))
             {
                 CurrentBlock.Figure = newFigure;
                 CurrentBlock.Position.X += offsetX;
@@ -110,7 +110,7 @@ namespace LisoTetris.Components.Tetris.Engine
             }
         }
 
-        private bool CanBePlaced(int offsetX, int offsetY, bool[,] figure)
+        private bool CanBePlaced(bool[,] figure, int offsetX = 0, int offsetY = 0)
         {
             int figureWidth = figure.GetLength(0);
             int figureHeight = figure.GetLength(1);
