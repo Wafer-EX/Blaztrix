@@ -13,11 +13,11 @@ namespace LisoTetris.Components.Tetris.Engine
 
         public event Action Lost;
 
-        public bool IsLost { get; private set; } = false;
+        public bool IsLost { get; private set; }
 
-        public FieldState FieldState { get; set; }
+        public FieldState FieldState { get; private set; }
 
-        public int Speed { get; set; } = 1;
+        public int Speed { get; private set; } = 1;
 
         public int Score
         {

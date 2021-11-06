@@ -12,13 +12,13 @@ namespace LisoTetris.Components.Tetris.Engine
 
         public event Action Updated;
 
-        public bool IsBlocked { get; set; } = false;
+        public bool IsBlocked { get; set; }
 
-        public bool[,] Field { get; set; }
+        public bool[,] Field { get; private set; }
 
-        public Queue<Block> Blocks { get; set; }
+        public Queue<Block> Blocks { get; private set; }
 
-        public Block CurrentBlock { get; set; }
+        public Block CurrentBlock { get; private set; }
 
         public FieldState(int width, int height)
         {
