@@ -50,7 +50,6 @@ namespace LisoTetris.Components.Tetris.Engine
             Blocks.Enqueue(block);
 
             CurrentBlock ??= new Block(Field.GetLength(0)).Generate();
-
             if (!CanBePlaced(0, 0, block.Figure))
             {
                 Lost?.Invoke();
@@ -60,19 +59,25 @@ namespace LisoTetris.Components.Tetris.Engine
 
         private void MoveBlock(Direction direction)
         {
+            int figureWidth = CurrentBlock.Figure.GetLength(0);
+            int figureHeight = CurrentBlock.Figure.GetLength(1);
+            int fieldWidth = Field.GetLength(0);
+            int fieldHeight = Field.GetLength(1);
+            Position position = CurrentBlock.Position;
+
             switch (direction)
             {
                 case Direction.Left:
-                    if (CurrentBlock.Position.X != 0 && CanBePlaced(-1, 0, CurrentBlock.Figure))
-                        CurrentBlock.Position.X -= 1;
+                    if (position.X != 0 && CanBePlaced(-1, 0, CurrentBlock.Figure))
+                        position.X -= 1;
                     break;
                 case Direction.Right:
-                    if (CurrentBlock.Position.X != Field.GetLength(0) - CurrentBlock.Figure.GetLength(0) && CanBePlaced(1, 0, CurrentBlock.Figure))
-                        CurrentBlock.Position.X += 1;
+                    if (position.X != fieldWidth - figureWidth && CanBePlaced(1, 0, CurrentBlock.Figure))
+                        position.X += 1;
                     break;
                 case Direction.Down:
-                    if (CurrentBlock.Position.Y != Field.GetLength(1) - CurrentBlock.Figure.GetLength(1) && CanBePlaced(0, 1, CurrentBlock.Figure))
-                        CurrentBlock.Position.Y += 1;
+                    if (position.Y != fieldHeight - figureHeight && CanBePlaced(0, 1, CurrentBlock.Figure))
+                        position.Y += 1;
                     else PlaceBlock();
                     break;
                 case Direction.Around:
@@ -83,19 +88,17 @@ namespace LisoTetris.Components.Tetris.Engine
 
         private void RotateBlock()
         {
-            int width = CurrentBlock.Figure.GetLength(0);
-            int height = CurrentBlock.Figure.GetLength(1);
+            int figureWidth = CurrentBlock.Figure.GetLength(0);
+            int figureHeight = CurrentBlock.Figure.GetLength(1);
+            int offsetX = (figureWidth - figureHeight) / 2;
+            int offsetY = (figureHeight - figureWidth) / 2;
 
-            int offsetX = (width - height) / 2;
-            int offsetY = (height - width) / 2;
-
-            bool[,] newFigure = new bool[height, width];
-
-            for (int j = 0; j < height; j++)
+            bool[,] newFigure = new bool[figureHeight, figureWidth];
+            for (int heightPoint = 0; heightPoint < figureHeight; heightPoint++)
             {
-                for (int i = 0; i < width; i++)
+                for (int widthPoint = 0; widthPoint < figureWidth; widthPoint++)
                 {
-                    newFigure[j, i] = CurrentBlock.Figure[i, height - j - 1];
+                    newFigure[heightPoint, widthPoint] = CurrentBlock.Figure[widthPoint, figureHeight - heightPoint - 1];
                 }
             }
 
@@ -109,13 +112,17 @@ namespace LisoTetris.Components.Tetris.Engine
 
         private bool CanBePlaced(int offsetX, int offsetY, bool[,] figure)
         {
+            int figureWidth = figure.GetLength(0);
+            int figureHeight = figure.GetLength(1);
+            Position position = CurrentBlock.Position;
+
             try
             {
-                for (int j = 0; j < figure.GetLength(1); j++)
+                for (int heightPoint = 0; heightPoint < figureHeight; heightPoint++)
                 {
-                    for (int i = 0; i < figure.GetLength(0); i++)
+                    for (int widthPoint = 0; widthPoint < figureWidth; widthPoint++)
                     {
-                        if (figure[i, j] && Field[CurrentBlock.Position.X + i + offsetX, CurrentBlock.Position.Y + j + offsetY])
+                        if (figure[widthPoint, heightPoint] && Field[position.X + widthPoint + offsetX, position.Y + heightPoint + offsetY])
                         {
                             return false;
                         }
@@ -128,77 +135,83 @@ namespace LisoTetris.Components.Tetris.Engine
 
         private void PlaceBlock()
         {
-            for (int j = 0; j < CurrentBlock.Figure.GetLength(1); j++)
+            Position position = CurrentBlock.Position;
+            int figureWidth = CurrentBlock.Figure.GetLength(0);
+            int figureHeight = CurrentBlock.Figure.GetLength(1);
+
+            for (int heightPoint = 0; heightPoint < figureHeight; heightPoint++)
             {
-                for (int i = 0; i < CurrentBlock.Figure.GetLength(0); i++)
+                for (int widthPoint = 0; widthPoint < figureWidth; widthPoint++)
                 {
-                    if (CurrentBlock.Figure[i, j])
+                    if (CurrentBlock.Figure[widthPoint, heightPoint])
                     {
-                        Field[i + CurrentBlock.Position.X, j + CurrentBlock.Position.Y] = true;
+                        Field[widthPoint + position.X, heightPoint + position.Y] = true;
                     }
                 }
             }
             CurrentBlock.IsSetted = true;
 
-            for (int j = CurrentBlock.Position.Y; j < CurrentBlock.Position.Y + CurrentBlock.Figure.GetLength(1); j++)
-              if (LineIsFull(j)) DeleteLine(j);
+            for (int heightPoint = position.Y; heightPoint < position.Y + figureHeight; heightPoint++)
+              if (LineIsFull(heightPoint)) DeleteLine(heightPoint);
         }
 
         private bool LineIsFull(int lineIndex)
         {
-            int width = Field.GetLength(0);
+            int fieldWidth = Field.GetLength(0);
             int sum = 0;
 
-            for (int i = 0; i < width; i++)
-                if (Field[i, lineIndex]) sum++;
+            for (int widthPoint = 0; widthPoint < fieldWidth; widthPoint++)
+                if (Field[widthPoint, lineIndex]) sum++;
             
-            if (sum == width) return true;
+            if (sum == fieldWidth) return true;
             else return false;
         }
 
         private void DeleteLine(int lineIndex)
         {
-            for (int j = lineIndex; j >= 1; j--)
+            int fieldWidth = Field.GetLength(0);
+
+            for (int heightPoint = lineIndex; heightPoint >= 1; heightPoint--)
             {
-                for (int i = 0; i < Field.GetLength(0); i++)
+                for (int widthPoint = 0; widthPoint < fieldWidth; widthPoint++)
                 {
-                    Field[i, j] = Field[i, j - 1];
+                    Field[widthPoint, heightPoint] = Field[widthPoint, heightPoint - 1];
                 }
             }
             LineDeleted?.Invoke();
         }
 
-        public static explicit operator PixelStates[,](FieldState param)
+        public static explicit operator PixelStates[,](FieldState fieldState)
         {
-            int fieldWidth = param.Field.GetLength(0);
-            int fieldHeight = param.Field.GetLength(1);
-            var newState = new PixelStates[fieldWidth, fieldHeight];
+            int fieldWidth = fieldState.Field.GetLength(0);
+            int fieldHeight = fieldState.Field.GetLength(1);
+            var pixelStates = new PixelStates[fieldWidth, fieldHeight];
 
-            for (int j = 0; j < fieldHeight; j++)
+            for (int heightPoint = 0; heightPoint < fieldHeight; heightPoint++)
             {
-                for (int i = 0; i < fieldWidth; i++)
+                for (int widthPoint = 0; widthPoint < fieldWidth; widthPoint++)
                 {
-                    if (param.Field[i, j])
-                        newState[i, j] = PixelStates.Filled;
+                    if (fieldState.Field[widthPoint, heightPoint])
+                        pixelStates[widthPoint, heightPoint] = PixelStates.Filled;
                 }
             }
 
-            Position blockPosition = param.CurrentBlock.Position;
-            int blockWidth = param.CurrentBlock.Figure.GetLength(0);
-            int blockHeight = param.CurrentBlock.Figure.GetLength(1);
+            Position blockPosition = fieldState.CurrentBlock.Position;
+            int figureWidth = fieldState.CurrentBlock.Figure.GetLength(0);
+            int figureHeight = fieldState.CurrentBlock.Figure.GetLength(1);
 
-            for (int j = 0; j < blockHeight; j++)
+            for (int heightPoint = 0; heightPoint < figureHeight; heightPoint++)
             {
-                for (int i = 0; i < blockWidth; i++)
+                for (int widthPoint = 0; widthPoint < figureWidth; widthPoint++)
                 {
-                    if (param.CurrentBlock.Figure[i, j])
+                    if (fieldState.CurrentBlock.Figure[widthPoint, heightPoint])
                     {
-                        newState[i + blockPosition.X, j + blockPosition.Y] = PixelStates.CurrentBlock;
+                        pixelStates[blockPosition.X + widthPoint, blockPosition.Y + heightPoint] = PixelStates.CurrentBlock;
                     }
                 }
             }
 
-            return newState;
+            return pixelStates;
         }
     }
 }
