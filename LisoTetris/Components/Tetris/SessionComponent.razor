@@ -3,7 +3,9 @@
 @if (settingsAccepted)
 {
     <InfoComponent @ref="infoComp" Score="session.Score" Speed="session.Speed" />
-    <button @onclick="Pause">Pause</button>
+
+    <button hidden="@(!session.IsLost)" @onclick="() => settingsAccepted = false">Restart</button>
+    <button hidden="@session.IsLost" @onclick="Pause">Pause</button>
 
     <div tabindex="0" @ref="container" @onclick="() => container.FocusAsync()" @onkeydown="KeyHandler">
         <p hidden="@(!session.FieldState.IsBlocked)">@message</p>
