@@ -2,49 +2,47 @@
 
 @if (settingsAccepted)
 {
-    <InfoComponent @ref="infoComp" Score="session.Score" Speed="session.Speed" />
+    <InfoComponent @ref="infoComponent" Score="session.Score" Speed="session.Speed" />
 
     <button hidden="@(!session.IsLost)" @onclick="() => settingsAccepted = false">Restart</button>
     <button hidden="@session.IsLost" @onclick="Pause">Pause</button>
 
-    <div tabindex="0" @ref="container" @onclick="() => container.FocusAsync()" @onkeydown="KeyHandler">
+    <div tabindex="0" @ref="fieldContainer" @onclick="() => fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
         <p hidden="@(!session.FieldState.IsBlocked)">@message</p>
-        <FieldComponent @ref="fieldComp" FieldState="session.FieldState" />
+        <FieldComponent @ref="fieldComponent" FieldState="session.FieldState" />
     </div>
 }
 else
 {
-    <SettingsComponent @ref="settingsComp" />
+    <SettingsComponent @ref="settingsComponent" />
 }
 
 @code {
-    private SettingsComponent settingsComp;
-    private FieldComponent fieldComp;
-    private InfoComponent infoComp;
+    private SettingsComponent settingsComponent;
+    private FieldComponent fieldComponent;
+    private InfoComponent infoComponent;
+    private ElementReference fieldContainer;
+
     private Session session;
-
     private bool settingsAccepted = false;
-
     private string message;
-    private ElementReference container;
 
     protected override void OnInitialized()
     {
-        fieldComp = new FieldComponent();
-        infoComp = new InfoComponent();
-        settingsComp = new SettingsComponent();
+        fieldComponent = new FieldComponent();
+        infoComponent = new InfoComponent();
+        settingsComponent = new SettingsComponent();
     }
 
     protected override void OnAfterRender(bool firstRender)
     {
-        settingsComp.Applied += async delegate
+        settingsComponent.Applied += async delegate
         {
-            session = new Session(settingsComp.Width, settingsComp.Height, 1);
-            settingsAccepted = true;
-
+            session = new Session(settingsComponent.Width, settingsComponent.Height, 1);
             session.FieldUpdated += () => StateHasChanged();
             session.Lost += () => message = "You are lost";
 
+            settingsAccepted = true;
             await session.StartAsync();
         };
     }
@@ -53,32 +51,18 @@ else
     {
         switch (e.Key)
         {
-            case "ArrowLeft":
-                session.Control(Direction.Left);
-                break;
-            case "ArrowRight":
-                session.Control(Direction.Right);
-                break;
-            case "ArrowDown":
-                session.Control(Direction.Down);
-                break;
-            case " ":
-                session.Control(Direction.Around);
-                break;
+            case "ArrowLeft": session.Control(Direction.Left); break;
+            case "ArrowRight": session.Control(Direction.Right); break;
+            case "ArrowDown": session.Control(Direction.Down); break;
+            case " ": session.Control(Direction.Around); break;
         }
     }
 
     private async Task Pause()
     {
         if (session.FieldState.IsBlocked)
-        {
-            session.FieldState.IsBlocked = false;
             await session.StartAsync();
-        }
-        else
-        {
-            session.FieldState.IsBlocked = true;
-            message = "Paused";
-        }
+        else message = "Paused";
+        session.FieldState.IsBlocked = !session.FieldState.IsBlocked;
     }
 }

@@ -12,12 +12,12 @@
 </EditForm>
 
 @code {
+    private SettingsModel settingsModel = new SettingsModel();
+
     public event Action Applied;
 
     public int Width { get; set; }
     public int Height { get; set; }
-
-    private SettingsModel settingsModel = new SettingsModel();
 
     private void ApplySettings()
     {
