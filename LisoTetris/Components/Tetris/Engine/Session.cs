@@ -9,6 +9,8 @@ namespace LisoTetris.Components.Tetris.Engine
 
         public event Action FieldUpdated;
 
+        public event Action AutoMoved;
+
         public event Action ScoreChanged;
 
         public event Action Lost;
@@ -59,6 +61,7 @@ namespace LisoTetris.Components.Tetris.Engine
                     while (!FieldState.IsBlocked)
                     {
                         FieldState.Update(Direction.Down);
+                        AutoMoved?.Invoke();
                         await Task.Delay(1000 / Speed);
                     }
                 });

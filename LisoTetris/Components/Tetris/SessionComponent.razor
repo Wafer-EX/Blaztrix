@@ -39,6 +39,7 @@ else
         {
             session = new Session(settingsComponent.Width, settingsComponent.Height, 1);
             session.FieldUpdated += () => StateHasChanged();
+            session.AutoMoved += async () => await fieldContainer.FocusAsync();
 
             settingsAccepted = true;
             await session.StartAsync();
