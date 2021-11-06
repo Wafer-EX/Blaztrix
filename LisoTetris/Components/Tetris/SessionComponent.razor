@@ -8,7 +8,7 @@
     <button hidden="@session.IsLost" @onclick="Pause">@(session.FieldState.IsBlocked ? "Continue" : "Pause")</button>
 
     <div tabindex="0" @ref="fieldContainer" @onclick="() => fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
-        <p hidden="@(!session.FieldState.IsBlocked)">@message</p>
+        <p hidden="@(!session.FieldState.IsBlocked)">@(session.IsLost ? "You are lost" : "Paused")</p>
         <FieldComponent @ref="fieldComponent" FieldState="session.FieldState" />
     </div>
 }
@@ -25,7 +25,6 @@ else
 
     private Session session;
     private bool settingsAccepted = false;
-    private string message;
 
     protected override void OnInitialized()
     {
@@ -40,7 +39,6 @@ else
         {
             session = new Session(settingsComponent.Width, settingsComponent.Height, 1);
             session.FieldUpdated += () => StateHasChanged();
-            session.Lost += () => message = "You are lost";
 
             settingsAccepted = true;
             await session.StartAsync();
@@ -62,7 +60,6 @@ else
     {
         if (session.FieldState.IsBlocked)
             await session.StartAsync();
-        else message = "Paused";
-        session.FieldState.IsBlocked = !session.FieldState.IsBlocked;
+        else session.Stop();
     }
 }
