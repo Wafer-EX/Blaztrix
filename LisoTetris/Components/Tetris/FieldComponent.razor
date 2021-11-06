@@ -1,17 +1,20 @@
 ﻿@using Tetris.Engine
 
 @{
-    <div hidden="@(displayedData == null)">
-        @for (int j = 0; j < displayedData.GetLength(1); j++)
-        {
-            <div class="field-line">
-                @for (int i = 0; i < displayedData.GetLength(0); i++)
-                {
-                    <PixelComponent State="displayedData[i, j]" />
-                }
-            </div>
-        }
-    </div>
+    if (displayedData != null)
+    {
+        <div>
+            @for (int j = 0; j < displayedData.GetLength(1); j++)
+            {
+                <div class="field-line">
+                    @for (int i = 0; i < displayedData.GetLength(0); i++)
+                    {
+                        <PixelComponent State="displayedData[i, j]" />
+                    }
+                </div>
+            }
+        </div>
+    }
 }
 
 @code {
@@ -19,5 +22,9 @@
 
     [Parameter] public FieldState FieldState { get; set; }
 
-    protected override void OnParametersSet() => displayedData = (PixelStates[,])FieldState;
+    protected override void OnParametersSet()
+    {
+        if (FieldState != null)
+            displayedData = (PixelStates[,])FieldState;
+    }
 }
