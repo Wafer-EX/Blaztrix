@@ -1,24 +1,8 @@
 ﻿@inherits LayoutComponentBase
+@using LisoTetris.Components;
 
-<!--All Page-->
 <div>
-    <!--<!--Top line container-->
-    <div>
-        <!--Logo-->
-        <ul>
-            <li>
-                <NavLink href="">Main</NavLink>
-            </li>
-            <li>
-                <NavLink href="tetris">Tetris</NavLink>
-            </li>
-            <li>
-                <NavLink href="about">About</NavLink>
-            </li>
-        </ul>
-    </div>
-
-    <!--Main-->
+    <NavigationBarComponent />
     <div>
         @Body
     </div>

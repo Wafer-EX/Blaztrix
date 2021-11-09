@@ -1,4 +1,13 @@
-﻿#blazor-error-ui {
+﻿html, body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+
+h1 {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+#blazor-error-ui {
     display: none;
 }
 
