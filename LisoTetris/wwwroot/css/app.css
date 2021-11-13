@@ -1,10 +1,16 @@
 ﻿html, body {
     font-family: 'Roboto', sans-serif;
+    background: #121212;
     margin: 0;
 }
 
 h1 {
     font-family: 'Roboto Condensed', sans-serif;
+    color: white;
+}
+
+p {
+    color: white;
 }
 
 #blazor-error-ui {
