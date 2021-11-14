@@ -1,7 +1,6 @@
 ﻿table {
-    width: calc(100% - 48px);
+    width: 100%;
     border-collapse: collapse;
-    margin: 24px;
 }
 
 th, td {
