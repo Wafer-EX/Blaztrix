@@ -1,0 +1,29 @@
+﻿.button {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    padding: 12px;
+    background: #121212;
+    color: #fff;
+    outline: none;
+    border: 3px solid #161616;
+    box-shadow: 0 3px 4px rgb(0 0 0 / 15%);
+    transition-duration: .1s;
+}
+
+    .button:hover {
+        color: #69ffc9;
+        cursor: pointer;
+        transition-duration: .1s;
+    }
+
+.button-container {
+    border-top: 0px solid #212121;
+    border-bottom: 3px solid #121212;
+    transition-duration: .1s;
+}
+
+    .button-container:hover {
+        border-top: 3px solid #212121;
+        border-bottom: 0px solid #121212;
+        transition-duration: .1s;
+    }
