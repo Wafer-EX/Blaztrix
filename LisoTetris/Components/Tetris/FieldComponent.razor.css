@@ -1,3 +1,15 @@
 ﻿.field-line {
     display: flex;
 }
+
+#field-container {
+    width: 325px;
+    height: 325px;
+    background: #121212;
+    border-bottom: 2px solid #1c1c1c;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
