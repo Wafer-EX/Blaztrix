@@ -9,7 +9,7 @@
         </div>
         <div style="flex-grow: 1;">
             <div id="session-info-container">
-                <InfoComponent @ref="infoComponent" Score="session.Score" Speed="session.Speed" />
+                <InfoComponent Score="session.Score" Speed="session.Speed" />
             </div>
             <div>
                 <button hidden="@(!session.IsLost)" @onclick="() => settingsAccepted = false">Restart</button>
@@ -26,7 +26,6 @@ else
 @code {
     private SettingsComponent settingsComponent;
     private FieldComponent fieldComponent;
-    private InfoComponent infoComponent;
     private ElementReference fieldContainer;
 
     private Session session;
@@ -35,7 +34,6 @@ else
     protected override void OnInitialized()
     {
         fieldComponent = new FieldComponent();
-        infoComponent = new InfoComponent();
         settingsComponent = new SettingsComponent();
     }
 
