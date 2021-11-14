@@ -6,7 +6,7 @@
     width: 435px;
     height: 435px;
     background: #121212;
-    border-bottom: 2px solid #1c1c1c;
+    border-bottom: 3px solid #1c1c1c;
 
     display: flex;
     flex-direction: column;
