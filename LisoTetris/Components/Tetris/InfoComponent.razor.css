@@ -1,0 +1,11 @@
+﻿table {
+    width: calc(100% - 48px);
+    border-collapse: collapse;
+    margin: 24px;
+}
+
+th, td {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
