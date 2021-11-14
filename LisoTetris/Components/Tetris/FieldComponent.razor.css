@@ -13,3 +13,12 @@
     justify-content: center;
     align-items: center;
 }
+
+.field-overlay {
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    background: #121212;
+    opacity: .8;
+    z-index: 0;
+}

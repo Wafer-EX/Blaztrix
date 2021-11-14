@@ -3,6 +3,7 @@
     padding: 16px;
     background: #141414;
     border: 2px solid #1c1c1c;
+    box-shadow: 0 20px 30px rgba(0,0,0,0.25);
     display: flex;
 }
 
@@ -29,9 +30,11 @@
 }
 
     #session-left-container p {
-        position: absolute;
         font-family: 'Roboto Condensed', sans-serif;
         font-size: 24pt;
+        position: absolute;
+        margin: 0;
+        z-index: 1;
     }
 
 #session-right-container {
