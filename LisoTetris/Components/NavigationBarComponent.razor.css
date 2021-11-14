@@ -15,13 +15,13 @@ li {
     margin-left: 6px;
     margin-right: 6px;
     border-top: 0px solid #212121;
-    border-bottom: 2px solid #121212;
+    border-bottom: 3px solid #121212;
     transition-duration: .1s;
 }
 
     li:hover {
         border-bottom: 0px solid #121212;
-        border-top: 2px solid #212121;
+        border-top: 3px solid #212121;
         transition-duration: .1s;
     }
 
@@ -30,7 +30,7 @@ li {
     font-size: 12px;
     color: #fff;
     background: #121212;
-    border: 2px solid #161616;
+    border: 3px solid #161616;
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
     text-decoration: none;
     display: block;
@@ -46,7 +46,7 @@ li {
     width: 100%;
     height: 100px;
     background: #161616;
-    border-bottom: 2px solid #1e1e1e;
+    border-bottom: 3px solid #1e1e1e;
     display: flex;
     justify-content: left;
     align-items: center;

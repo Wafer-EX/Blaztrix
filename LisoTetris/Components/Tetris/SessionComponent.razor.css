@@ -4,7 +4,7 @@
     margin-left: auto;
     margin-right: auto;
     background: #141414;
-    border: 2px solid #1c1c1c;
+    border: 3px solid #1c1c1c;
     box-shadow: 0 20px 30px rgba(0,0,0,0.25);
     display: flex;
 }
@@ -13,7 +13,7 @@
     height: 70%;
     padding: 24px;
     background: #121212;
-    border-bottom: 2px solid #1c1c1c;
+    border-bottom: 3px solid #1c1c1c;
 }
 
 #session-control-container {
@@ -32,7 +32,7 @@
         background: #121212;
         color: #fff;
         outline: none;
-        border: 2px solid #161616;
+        border: 3px solid #161616;
         box-shadow: 0 3px 4px rgb(0 0 0 / 15%);
         transition-duration: .1s;
     }
@@ -40,6 +40,19 @@
         #session-control-container button:hover {
             color: #69ffc9;
             cursor: pointer;
+            transition-duration: .1s;
+        }
+
+    #session-control-container div {
+        width: 100%;
+        border-top: 0px solid #212121;
+        border-bottom: 3px solid #121212;
+        transition-duration: .1s;
+    }
+
+        #session-control-container div:hover {
+            border-top: 3px solid #212121;
+            border-bottom: 0px solid #121212;
             transition-duration: .1s;
         }
 
