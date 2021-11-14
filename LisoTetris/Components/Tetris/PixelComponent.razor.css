@@ -1,13 +1,14 @@
 ﻿.pixel {
-    width: 10px;
-    height: 10px;
-    background: #c4c4c4;
+    width: 14.8px;
+    height: 14.8px;
+    margin: .5px;
+    background: #161616;
 }
 
 .pixel-filled {
-    background: #000000;
+    background: #494949;
 }
 
 .pixel-current-block {
-    background: #0000ff;
+    background: #d1d1d1;
 }
