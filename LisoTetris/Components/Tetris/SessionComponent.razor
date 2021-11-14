@@ -3,11 +3,11 @@
 @if (settingsAccepted)
 {
     <div id="session-container">
-        <div tabindex="0" @ref="fieldContainer" @onclick="() => fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
-            <p id="session-message" hidden="@(!session.FieldState.IsBlocked)">@(session.IsLost ? "You are lost" : "Paused")</p>
+        <div id="session-left-container" tabindex="0" @ref="fieldContainer" @onclick="() => fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
+            <p hidden="@(!session.FieldState.IsBlocked)">@(session.IsLost ? "You are lost" : "Paused")</p>
             <FieldComponent @ref="fieldComponent" FieldState="session.FieldState" />
         </div>
-        <div style="flex-grow: 1; display: flex; flex-direction: column;">
+        <div id="session-right-container">
             <div id="session-info-container">
                 <InfoComponent Score="session.Score" Speed="session.Speed" />
             </div>
