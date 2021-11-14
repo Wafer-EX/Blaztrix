@@ -4,6 +4,7 @@
     if (displayedData != null)
     {
         <div id="field-container">
+            <div class="field-overlay" hidden="@(!fieldState.IsBlocked)" />
             @for (int j = 0; j < displayedData.GetLength(1); j++)
             {
                 <div class="field-line">
