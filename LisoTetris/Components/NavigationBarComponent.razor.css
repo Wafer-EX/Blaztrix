@@ -14,33 +14,13 @@ li {
     list-style-type: none;
     margin-left: 6px;
     margin-right: 6px;
-    border-top: 0px solid #212121;
-    border-bottom: 3px solid #121212;
-    transition-duration: .1s;
 }
-
-    li:hover {
-        border-bottom: 0px solid #121212;
-        border-top: 3px solid #212121;
-        transition-duration: .1s;
-    }
 
 ::deep a {
     padding: 16px;
-    font-size: 12px;
-    color: #fff;
-    background: #121212;
-    border: 3px solid #161616;
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
     text-decoration: none;
     display: block;
-    transition-duration: .1s;
 }
-
-    ::deep a:hover {
-        color: #69ffc9;
-        transition-duration: .1s;
-    }
 
 .navbar-container {
     width: 100%;

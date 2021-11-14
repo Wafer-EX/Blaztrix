@@ -12,9 +12,9 @@
                 <InfoComponent Score="session.Score" Speed="session.Speed" />
             </div>
             <div id="session-control-container">
-                <div>
-                    <button hidden="@(!session.IsLost)" @onclick="() => settingsAccepted = false">Restart</button>
-                    <button hidden="@session.IsLost" @onclick="Pause">@(session.FieldState.IsBlocked ? "Continue" : "Pause")</button>
+                <div class="button-container">
+                    <button class="button" hidden="@(!session.IsLost)" @onclick="() => settingsAccepted = false">Restart</button>
+                    <button class="button" hidden="@session.IsLost" @onclick="Pause">@(session.FieldState.IsBlocked ? "Continue" : "Pause")</button>
                 </div>
             </div>
         </div>
