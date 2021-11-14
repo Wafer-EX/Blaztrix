@@ -8,7 +8,19 @@
 
 #session-info-container {
     height: 70%;
+    padding: 24px;
     background: #121212;
     border-bottom: 2px solid #1c1c1c;
-    overflow: hidden;
+}
+
+#session-control-container {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#session-message {
+    position: absolute;
 }
