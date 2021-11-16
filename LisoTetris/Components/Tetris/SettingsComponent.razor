@@ -1,14 +1,19 @@
 ﻿@using Models.Tetris
 
-<EditForm Model="settingsModel" OnValidSubmit="@ApplySettings">
+<EditForm class="form" Model="settingsModel" OnValidSubmit="@ApplySettings">
+    <h1>Settings</h1>
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <p>Width:</p>
-    <InputNumber @bind-Value="settingsModel.Width" />
-    <p>Height:</p>
-    <InputNumber @bind-Value="settingsModel.Height" />
-    <input type="submit" value="Apply" />
+    <div class="input-text-container">
+        <InputNumber @bind-Value="settingsModel.Width" class="input-text" placeholder="Width" />
+    </div>
+    <div class="input-text-container">
+        <InputNumber @bind-Value="settingsModel.Height" class="input-text" placeholder="Height" />
+    </div>
+    <div class=button-container>
+        <input class="button" type="submit" value="Apply" />
+    </div>
 </EditForm>
 
 @code {
@@ -21,8 +26,8 @@
 
     private void ApplySettings()
     {
-        Width = settingsModel.Width;
-        Height = settingsModel.Height;
+        Width = (int)settingsModel.Width;
+        Height = (int)settingsModel.Height;
         Applied?.Invoke();
     }
 }
