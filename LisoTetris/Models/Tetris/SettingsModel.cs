@@ -6,10 +6,10 @@ namespace LisoTetris.Models.Tetris
     {
         [Required]
         [Range(8, 20)]
-        public int Width { get; set; }
+        public int? Width { get; set; }
 
         [Required]
         [Range(8, 20)]
-        public int Height { get; set; }
+        public int? Height { get; set; }
     }
 }
