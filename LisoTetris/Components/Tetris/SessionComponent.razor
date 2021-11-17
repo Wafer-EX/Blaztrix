@@ -2,23 +2,25 @@
 
 @if (settingsAccepted)
 {
-    <div id="session-container">
-        <div id="session-left-container" tabindex="0" @ref="fieldContainer" @onclick="() => fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
-            <p hidden="@(!session.FieldState.IsBlocked)">@(session.IsLost ? "You are lost" : "Paused")</p>
-            <FieldComponent @ref="fieldComponent" FieldState="session.FieldState" />
-        </div>
-        <div id="session-right-container">
-            <div id="session-info-container">
-                <InfoComponent Score="session.Score" Speed="session.Speed" />
+    <PageBodyComponent EnableContentContainer=false Style="width: 650px; margin: 0 auto 0 auto;">
+        <div id="session-container">
+            <div id="session-left-container" tabindex="0" @ref="fieldContainer" @onclick="() => fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
+                <p hidden="@(!session.FieldState.IsBlocked)">@(session.IsLost ? "You are lost" : "Paused")</p>
+                <FieldComponent @ref="fieldComponent" FieldState="session.FieldState" />
             </div>
-            <div id="session-control-container">
-                <div class="button-container">
-                    <button class="button" hidden="@(!session.IsLost)" @onclick="() => settingsAccepted = false">Restart</button>
-                    <button class="button" hidden="@session.IsLost" @onclick="Pause">@(session.FieldState.IsBlocked ? "Continue" : "Pause")</button>
+            <div id="session-right-container">
+                <div id="session-info-container">
+                    <InfoComponent Score="session.Score" Speed="session.Speed" />
+                </div>
+                <div id="session-control-container">
+                    <div class="button-container">
+                        <button class="button" hidden="@(!session.IsLost)" @onclick="() => settingsAccepted = false">Restart</button>
+                        <button class="button" hidden="@session.IsLost" @onclick="Pause">@(session.FieldState.IsBlocked ? "Continue" : "Pause")</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </PageBodyComponent>
 }
 else
 {

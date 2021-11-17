@@ -1,11 +1,4 @@
 ﻿#session-container {
-    width: 650px;
-    padding: 16px;
-    margin-left: auto;
-    margin-right: auto;
-    background: #141414;
-    border: 3px solid #1c1c1c;
-    box-shadow: 0 20px 30px rgba(0,0,0,0.25);
     display: flex;
     justify-content: center;
 }
@@ -20,16 +13,9 @@
 #session-control-container {
     padding: 24px;
     flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-    #session-control-container button {
-        width: 100%;
-    }
-
-    #session-control-container div {
+    #session-control-container button, #session-control-container div {
         width: 100%;
     }
 
