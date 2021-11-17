@@ -27,13 +27,8 @@
 }
 
 @keyframes page-display-animation {
-    0% {
+    from {
         transform: translateY(-12px);
         opacity: 0;
-    }
-
-    100% {
-        transform: translateY(0px);
-        opacity: 1;
     }
 }
