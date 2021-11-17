@@ -1,14 +1,19 @@
-﻿<div>
-    <div>
+﻿<div class="page-container">
+    <div class="page-title-container" hidden="@string.IsNullOrEmpty(Title)">
         <h1>@Title</h1>
     </div>
-    <div>@ChildContent</div>
+    <div class="@(EnableContentContainer ? "page-content-container" : null)">
+        @ChildContent
+    </div>
 </div>
 
 @code {
     [Parameter]
     public string Title { get; set; }
- 
+
+    [Parameter]
+    public bool EnableContentContainer { get; set; } = true;
+
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 }
