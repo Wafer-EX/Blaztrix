@@ -112,9 +112,9 @@ namespace LisoTetris.Components.Tetris.Engine
 
         private bool CanBePlaced(bool[,] figure, int offsetX = 0, int offsetY = 0)
         {
+            Position position = CurrentBlock.Position;
             int figureWidth = figure.GetLength(0);
             int figureHeight = figure.GetLength(1);
-            Position position = CurrentBlock.Position;
 
             try
             {
@@ -123,9 +123,7 @@ namespace LisoTetris.Components.Tetris.Engine
                     for (int widthPoint = 0; widthPoint < figureWidth; widthPoint++)
                     {
                         if (figure[widthPoint, heightPoint] && Field[position.X + widthPoint + offsetX, position.Y + heightPoint + offsetY])
-                        {
                             return false;
-                        }
                     }
                 }
             }
@@ -144,9 +142,7 @@ namespace LisoTetris.Components.Tetris.Engine
                 for (int widthPoint = 0; widthPoint < figureWidth; widthPoint++)
                 {
                     if (CurrentBlock.Figure[widthPoint, heightPoint])
-                    {
                         Field[widthPoint + position.X, heightPoint + position.Y] = true;
-                    }
                 }
             }
             CurrentBlock.IsSetted = true;
@@ -205,9 +201,7 @@ namespace LisoTetris.Components.Tetris.Engine
                 for (int widthPoint = 0; widthPoint < figureWidth; widthPoint++)
                 {
                     if (fieldState.CurrentBlock.Figure[widthPoint, heightPoint])
-                    {
                         pixelStates[blockPosition.X + widthPoint, blockPosition.Y + heightPoint] = PixelStates.CurrentBlock;
-                    }
                 }
             }
 

@@ -4,6 +4,8 @@ namespace LisoTetris.Components.Tetris.Engine.Elements
 {
     public class Block
     {
+        private Random random = new Random();
+
         public bool[,] Figure { get; set; }
 
         public Position Position { get; set; }
@@ -14,7 +16,7 @@ namespace LisoTetris.Components.Tetris.Engine.Elements
 
         public Block Generate()
         {
-            switch (new Random().Next(1, 7))
+            switch (random.Next(1, 8))
             {
                 case 1: Figure = Presets.FigureO; break;
                 case 2: Figure = Presets.FigureI; break;
