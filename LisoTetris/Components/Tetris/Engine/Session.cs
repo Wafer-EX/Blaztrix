@@ -15,12 +15,6 @@ namespace LisoTetris.Components.Tetris.Engine
 
         public event Action Lost;
 
-        public bool IsLost { get; private set; }
-
-        public FieldState FieldState { get; private set; }
-
-        public int Speed { get; private set; } = 1;
-
         public int Score
         {
             get => score;
@@ -30,6 +24,12 @@ namespace LisoTetris.Components.Tetris.Engine
                 if (score % 5 == 0) Speed++;
             }
         }
+
+        public int Speed { get; private set; }
+
+        public FieldState FieldState { get; private set; }
+
+        public bool IsLost { get; private set; }
 
         public Session(int fieldWidth, int fieldHeight, int speed)
         {
@@ -51,12 +51,12 @@ namespace LisoTetris.Components.Tetris.Engine
             };
         }
 
-        public async Task StartAsync()
+        public void StartInBackground()
         {
             if (!IsLost)
             {
                 FieldState.IsBlocked = false;
-                await Task.Run(async delegate
+                Task.Run(async delegate
                 {
                     while (!FieldState.IsBlocked)
                     {

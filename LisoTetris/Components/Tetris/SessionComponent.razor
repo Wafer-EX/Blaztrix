@@ -45,14 +45,14 @@ else
 
     protected override void OnAfterRender(bool firstRender)
     {
-        settingsComponent.Applied += async delegate
+        settingsComponent.Applied += delegate
         {
             session = new Session(settingsComponent.Width, settingsComponent.Height, 1);
             session.FieldUpdated += () => StateHasChanged();
             session.AutoMoved += async () => await fieldContainer.FocusAsync();
 
             settingsAccepted = true;
-            await session.StartAsync();
+            session.StartInBackground();
         };
     }
 
@@ -67,10 +67,10 @@ else
         }
     }
 
-    private async Task Pause()
+    private void Pause()
     {
         if (session.FieldState.IsBlocked)
-            await session.StartAsync();
+            session.StartInBackground();
         else session.Stop();
     }
 }
