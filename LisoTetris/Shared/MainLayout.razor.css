@@ -1,8 +1,5 @@
 .body-container {
     max-width: 1024px;
-    padding-left: 8px;
-    padding-right: 8px;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 0 8px 0 8px;
+    margin: 50px auto 0 auto;
 }
