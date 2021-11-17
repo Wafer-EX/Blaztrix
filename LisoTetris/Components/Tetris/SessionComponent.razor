@@ -1,8 +1,8 @@
 ﻿@using Engine;
 
-<div id="session-container">
-    @if (settingsAccepted)
-    {
+@if (settingsAccepted)
+{
+    <div id="session-container">
         <div id="session-left-container" tabindex="0" @ref="fieldContainer" @onclick="() => fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
             <p hidden="@(!session.FieldState.IsBlocked)">@(session.IsLost ? "You are lost" : "Paused")</p>
             <FieldComponent @ref="fieldComponent" FieldState="session.FieldState" />
@@ -18,14 +18,16 @@
                 </div>
             </div>
         </div>
-    }
-    else
-    {
-        <div id="session-settings-container">
+    </div>
+}
+else
+{
+    <PageBodyComponent Title="Initial Tetris settings">
+       <div id="session-settings-container">
             <SettingsComponent @ref="settingsComponent" />
         </div>
-    }
-</div>
+    </PageBodyComponent>
+}
 
 @code {
     private SettingsComponent settingsComponent;
