@@ -32,6 +32,9 @@
         position: absolute;
         margin: 0;
         z-index: 1;
+        animation: session-display-message;
+        animation-duration: .7s;
+        animation-timing-function: cubic-bezier(0, 0, 0, 1);
     }
 
 #session-right-container {
@@ -45,4 +48,11 @@
     margin-right: auto;
     max-width: 250px;
     flex-grow: 1;
+}
+
+@keyframes session-display-message {
+    from {
+        opacity: 0;
+        letter-spacing: 4px;
+    }
 }

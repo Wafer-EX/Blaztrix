@@ -19,6 +19,14 @@
     height: inherit;
     position: absolute;
     background: #121212;
-    opacity: .8;
+    opacity: .75;
     z-index: 0;
+    animation-name: overlay-display;
+    animation-duration: .7s;
+}
+
+@keyframes overlay-display {
+    from {
+        opacity: 0;
+    }
 }
