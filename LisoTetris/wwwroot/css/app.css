@@ -11,6 +11,8 @@ h1 {
 
 p {
     color: white;
+    text-indent: 32px;
+    text-align: justify;
 }
 
 #blazor-error-ui {
