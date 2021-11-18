@@ -2,17 +2,18 @@
 
 @switch (State)
 {
-    case PixelStates.Nothing:
+    case Pixel.Empty:
         <div class="pixel" />
         break;
-    case PixelStates.Filled:
+    case Pixel.Filled:
         <div class="pixel pixel-filled" />
         break;
-    case PixelStates.CurrentBlock:
+    case Pixel.CurrentBlock:
         <div class="pixel pixel-current-block" />
         break;
 }
 
 @code {
-    [Parameter] public PixelStates State { get; set; }
+    [Parameter]
+    public Pixel State { get; set; }
 }
