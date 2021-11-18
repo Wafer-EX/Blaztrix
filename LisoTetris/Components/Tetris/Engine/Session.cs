@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LisoTetris.Components.Tetris.Engine
 {
     public class Session
     {
+        private CancellationTokenSource cancelAutoMoveSource = new CancellationTokenSource();
+
         private int score;
 
         public event Action FieldUpdated;
@@ -56,19 +59,29 @@ namespace LisoTetris.Components.Tetris.Engine
             if (!IsLost)
             {
                 FieldState.IsBlocked = false;
+                if (cancelAutoMoveSource.IsCancellationRequested)
+                {
+                    cancelAutoMoveSource.Dispose();
+                    cancelAutoMoveSource = new CancellationTokenSource();
+                }
+
                 Task.Run(async delegate
                 {
                     while (!FieldState.IsBlocked)
                     {
                         FieldState.Update(Direction.Down);
                         AutoMoved?.Invoke();
-                        await Task.Delay(1000 / Speed);
+                        await Task.Delay(1000 / Speed, cancelAutoMoveSource.Token);
                     }
                 });
             }
         }
 
-        public void Stop() => FieldState.IsBlocked = true;
+        public void Stop()
+        {
+            FieldState.IsBlocked = true;
+            cancelAutoMoveSource.Cancel();
+        }
 
         public void Control(Direction direction) => FieldState.Update(direction);
     }
