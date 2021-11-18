@@ -177,18 +177,18 @@ namespace LisoTetris.Components.Tetris.Engine
             LineDeleted?.Invoke();
         }
 
-        public static explicit operator PixelStates[,](FieldState fieldState)
+        public static explicit operator Pixel[,](FieldState fieldState)
         {
             int fieldWidth = fieldState.Field.GetLength(0);
             int fieldHeight = fieldState.Field.GetLength(1);
-            var pixelStates = new PixelStates[fieldWidth, fieldHeight];
+            var pixelStates = new Pixel[fieldWidth, fieldHeight];
 
             for (int heightPoint = 0; heightPoint < fieldHeight; heightPoint++)
             {
                 for (int widthPoint = 0; widthPoint < fieldWidth; widthPoint++)
                 {
                     if (fieldState.Field[widthPoint, heightPoint])
-                        pixelStates[widthPoint, heightPoint] = PixelStates.Filled;
+                        pixelStates[widthPoint, heightPoint] = Pixel.Filled;
                 }
             }
 
@@ -201,7 +201,7 @@ namespace LisoTetris.Components.Tetris.Engine
                 for (int widthPoint = 0; widthPoint < figureWidth; widthPoint++)
                 {
                     if (fieldState.CurrentBlock.Figure[widthPoint, heightPoint])
-                        pixelStates[blockPosition.X + widthPoint, blockPosition.Y + heightPoint] = PixelStates.CurrentBlock;
+                        pixelStates[blockPosition.X + widthPoint, blockPosition.Y + heightPoint] = Pixel.CurrentBlock;
                 }
             }
 

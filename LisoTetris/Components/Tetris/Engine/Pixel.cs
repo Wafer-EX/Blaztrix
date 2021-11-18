@@ -1,8 +1,8 @@
 ﻿namespace LisoTetris.Components.Tetris.Engine
 {
-    public enum PixelStates
+    public enum Pixel
     {
-        Nothing,
+        Empty,
         Filled,
         CurrentBlock
     }

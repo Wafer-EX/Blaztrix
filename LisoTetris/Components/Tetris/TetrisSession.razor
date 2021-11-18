@@ -1,18 +1,19 @@
-﻿@using Engine;
+﻿@using LisoTetris.Components.Tetris.Engine;
+@using LisoTetris.Components.Tetris.Parts;
 
 @if (settingsAccepted)
 {
-    <PageBodyComponent EnableContentContainer=false>
+    <PageContainer EnableContentContainer=false>
         <div id="session-container">
             <div id="session-left-container" tabindex="0" @ref="fieldContainer" @onclick="() => fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
                 <p hidden="@(!session.FieldState.IsBlocked)">
                     @(session.IsLost ? "You are lost" : "Paused")
                 </p>
-                <FieldComponent FieldState="session.FieldState" />
+                <Field FieldState="session.FieldState" />
             </div>
             <div id="session-right-container">
                 <div id="session-info-container">
-                    <InfoComponent Score="session.Score" Speed="session.Speed" />
+                    <Info Score="session.Score" Speed="session.Speed" />
                 </div>
                 <div id="session-control-container">
                     <div class="button-container">
@@ -24,36 +25,36 @@
                 </div>
             </div>
         </div>
-    </PageBodyComponent>
+    </PageContainer>
 }
 else
 {
-    <PageBodyComponent Title="Initial Tetris settings">
+    <PageContainer Title="Initial Tetris settings">
        <div id="session-settings-container">
-            <SettingsComponent @ref="settingsComponent" />
+            <InitialSettings @ref="initialSettingsComponent" />
        </div>
-    </PageBodyComponent>
+    </PageContainer>
 }
 
 @code {
-    private SettingsComponent settingsComponent;
+    private InitialSettings initialSettingsComponent;
     private ElementReference fieldContainer;
     private Session session;
     private bool settingsAccepted;
 
-    protected override void OnInitialized() => settingsComponent = new SettingsComponent();
+    protected override void OnInitialized() => initialSettingsComponent = new InitialSettings();
 
     protected override void OnAfterRender(bool firstRender)
     {
-        settingsComponent.Applied += delegate
+        initialSettingsComponent.Applied = new EventCallback(this, (Action)delegate
         {
-            session = new Session(settingsComponent.Width, settingsComponent.Height, 1);
+            session = new Session(initialSettingsComponent.Width, initialSettingsComponent.Height, 1);
             session.FieldUpdated += () => StateHasChanged();
             session.AutoMoved += async () => await fieldContainer.FocusAsync();
 
             settingsAccepted = true;
             session.StartInBackground();
-        };
+        });
     }
 
     private void KeyHandler(KeyboardEventArgs e)
