@@ -16,9 +16,29 @@ p {
 }
 
 #blazor-error-ui {
+    color: #fff;
     display: none;
 }
 
 #blazor-error-ui .dismiss {
     cursor: pointer;
+}
+
+.validation-errors {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.validation-message {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #ff6969;
+}
+
+.loading-container-centering {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

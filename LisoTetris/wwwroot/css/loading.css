@@ -1,0 +1,39 @@
+﻿#loading-container {
+    padding: 20px;
+    background: #121212;
+    border: 3px solid #1c1c1c;
+    box-shadow: 0 20px 30px rgb(0, 0, 0, 15%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    #loading-container h1 {
+        color: #69ffc9;
+        font-size: 24px;
+        margin: 10px;
+    }
+
+.figure-container {
+    margin: 10px;
+    display: grid;
+    grid-template-rows: 12px 12px;
+    grid-template-columns: 12px 12px;
+    grid-row-gap: 1px;
+    grid-column-gap: 1px;
+    animation-name: figure-rotation;
+    animation-duration: .7s;
+    animation-iteration-count: infinite;
+}
+
+    .figure-container div {
+        width: 12px;
+        height: 12px;
+        background: #69ffc9;
+    }
+
+@keyframes figure-rotation {
+    from {
+        transform: rotate(-90deg);
+    }
+}
