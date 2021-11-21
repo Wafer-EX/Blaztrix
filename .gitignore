@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/LisoTetris/Properties/ServiceDependencies/lisotetris - Web Deploy/profile.arm.json
