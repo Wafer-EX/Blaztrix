@@ -1,25 +1,28 @@
 ﻿@using LisoTetris.Components.Tetris.Engine;
 @using LisoTetris.Components.Tetris.Parts;
+@using LisoTetris.Services
 
-@if (settingsAccepted)
+@inject TetrisState TetrisState
+
+@if (TetrisState.SettingsAccepted)
 {
     <PageContainer EnableContentContainer=false>
         <div id="session-container">
             <div id="session-left-container" tabindex="0" @ref="fieldContainer" @onclick="() => fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
-                <p hidden="@(!session.FieldState.IsBlocked)">
-                    @(session.IsLost ? "You are lost" : "Paused")
+                <p hidden="@(!TetrisState.Session.FieldState.IsBlocked)">
+                    @(TetrisState.Session.IsLost ? "You are lost" : "Paused")
                 </p>
-                <Field FieldState="session.FieldState" />
+                <Field FieldState="TetrisState.Session.FieldState" />
             </div>
             <div id="session-right-container">
                 <div id="session-info-container">
-                    <Info Score="session.Score" Speed="session.Speed" />
+                    <Info Score="TetrisState.Session.Score" Speed="TetrisState.Session.Speed" />
                 </div>
                 <div id="session-control-container">
                     <div class="button-container">
-                        <button class="button" hidden="@(!session.IsLost)" @onclick="() => settingsAccepted = false">Restart</button>
-                        <button class="button" hidden="@session.IsLost" @onclick="Pause">
-                            @(session.FieldState.IsBlocked ? "Continue" : "Pause")
+                        <button class="button" hidden="@(!TetrisState.Session.IsLost)" @onclick="() => TetrisState.SettingsAccepted = false">Restart</button>
+                        <button class="button" hidden="@TetrisState.Session.IsLost" @onclick="Pause">
+                            @(TetrisState.Session.FieldState.IsBlocked ? "Continue" : "Pause")
                         </button>
                     </div>
                 </div>
@@ -39,8 +42,6 @@ else
 @code {
     private ElementReference fieldContainer;
     private static InitialSettings initialSettingsComponent;
-    private static Session session;
-    private static bool settingsAccepted;
 
     protected override void OnInitialized() => initialSettingsComponent = new InitialSettings();
 
@@ -48,17 +49,17 @@ else
     {
         initialSettingsComponent.Applied = new EventCallback(this, (Action)delegate
         {
-            session = new Session(initialSettingsComponent.Width, initialSettingsComponent.Height, 1);
-            session.FieldUpdated += StateHasChanged;
-            session.AutoMoved += () => fieldContainer.FocusAsync();
+            TetrisState.Session = new Session(initialSettingsComponent.Width, initialSettingsComponent.Height, 1);
+            TetrisState.Session.FieldUpdated += StateHasChanged;
+            TetrisState.Session.AutoMoved += () => fieldContainer.FocusAsync();
 
-            settingsAccepted = true;
-            session.StartInBackground();
+            TetrisState.SettingsAccepted = true;
+            TetrisState.Session.StartInBackground();
         });
 
-        if (firstRender && session != null)
+        if (firstRender && TetrisState.Session != null)
         {
-            session.FieldUpdated += StateHasChanged;
+            TetrisState.Session.FieldUpdated += StateHasChanged;
             fieldContainer.FocusAsync();
         }
     }
@@ -67,17 +68,17 @@ else
     {
         switch (e.Key)
         {
-            case "ArrowLeft": session.Control(Direction.Left); break;
-            case "ArrowRight": session.Control(Direction.Right); break;
-            case "ArrowDown": session.Control(Direction.Down); break;
-            case " ": session.Control(Direction.Around); break;
+            case "ArrowLeft": TetrisState.Session.Control(Direction.Left); break;
+            case "ArrowRight": TetrisState.Session.Control(Direction.Right); break;
+            case "ArrowDown": TetrisState.Session.Control(Direction.Down); break;
+            case " ": TetrisState.Session.Control(Direction.Around); break;
         }
     }
 
     private void Pause()
     {
-        if (session.FieldState.IsBlocked)
-            session.StartInBackground();
-        else session.Stop();
+        if (TetrisState.Session.FieldState.IsBlocked)
+            TetrisState.Session.StartInBackground();
+        else TetrisState.Session.Stop();
     }
 }
