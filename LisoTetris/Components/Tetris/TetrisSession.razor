@@ -37,10 +37,10 @@ else
 }
 
 @code {
-    private InitialSettings initialSettingsComponent;
     private ElementReference fieldContainer;
-    private Session session;
-    private bool settingsAccepted;
+    private static InitialSettings initialSettingsComponent;
+    private static Session session;
+    private static bool settingsAccepted;
 
     protected override void OnInitialized() => initialSettingsComponent = new InitialSettings();
 
@@ -49,12 +49,18 @@ else
         initialSettingsComponent.Applied = new EventCallback(this, (Action)delegate
         {
             session = new Session(initialSettingsComponent.Width, initialSettingsComponent.Height, 1);
-            session.FieldUpdated += () => StateHasChanged();
-            session.AutoMoved += async () => await fieldContainer.FocusAsync();
+            session.FieldUpdated += StateHasChanged;
+            session.AutoMoved += () => fieldContainer.FocusAsync();
 
             settingsAccepted = true;
             session.StartInBackground();
         });
+
+        if (firstRender && session != null)
+        {
+            session.FieldUpdated += StateHasChanged;
+            fieldContainer.FocusAsync();
+        }
     }
 
     private void KeyHandler(KeyboardEventArgs e)
