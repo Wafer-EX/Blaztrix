@@ -50,7 +50,7 @@ else
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if (TetrisState.Session != null)
+        if (TetrisState.Session != null && TetrisState.SettingsAccepted)
         {
             TetrisState.Session.AutoMoved += () => fieldContainer.FocusAsync();
             if (firstRender)
