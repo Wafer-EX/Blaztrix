@@ -6,13 +6,25 @@ namespace LisoTetris.Components.Tetris.Engine
 {
     public class FieldState
     {
+        private bool isBlocked;
+
+        public event Action Blocked;
+
         public event Action Lost;
 
         public event Action LineDeleted;
 
         public event Action Updated;
 
-        public bool IsBlocked { get; set; }
+        public bool IsBlocked
+        {
+            get => isBlocked;
+            set
+            {
+                isBlocked = value;
+                Blocked?.Invoke();
+            }
+        }
 
         public bool[,] Field { get; private set; }
 

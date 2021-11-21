@@ -1,12 +1,36 @@
 ﻿using LisoTetris.Components.Tetris.Engine;
+using System;
 
 namespace LisoTetris.Services
 {
     public class TetrisStateContainer
     {
-        public Session Session { get; set; }
+        private bool settingsAccepted;
 
-        public bool SettingsAccepted { get; set; }
+        private Session session;
+
+        public event Action StateChanged;
+
+        public Session Session
+        {
+            get => session;
+            set
+            {
+                session = value;
+                session.FieldState.Blocked += () => StateChanged?.Invoke();
+                StateChanged?.Invoke();
+            }
+        }
+
+        public bool SettingsAccepted
+        {
+            get => settingsAccepted;
+            set
+            {
+                settingsAccepted = value;
+                StateChanged?.Invoke();
+            }
+        }
 
         public CurrentState CurrentState
         {

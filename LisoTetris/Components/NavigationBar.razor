@@ -16,3 +16,8 @@
         </li>
     </ul>
 </div>
+
+@code {
+    protected override void OnInitialized()
+        => TetrisState.StateChanged += StateHasChanged;
+}
