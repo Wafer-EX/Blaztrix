@@ -42,24 +42,34 @@ else
     private ElementReference fieldContainer;
     private static InitialSettings initialSettingsComponent;
 
-    protected override void OnInitialized() => initialSettingsComponent = new InitialSettings();
+    protected override void OnInitialized()
+    {
+        if (initialSettingsComponent == null)
+            initialSettingsComponent = new InitialSettings();
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {
-        initialSettingsComponent.Applied = new EventCallback(this, (Action)delegate
+        if (TetrisState.Session != null)
         {
-            TetrisState.Session = new Session(initialSettingsComponent.Width, initialSettingsComponent.Height, 1);
-            TetrisState.Session.FieldUpdated += StateHasChanged;
             TetrisState.Session.AutoMoved += () => fieldContainer.FocusAsync();
-
-            TetrisState.SettingsAccepted = true;
-            TetrisState.Session.StartInBackground();
-        });
-
-        if (firstRender && TetrisState.Session != null)
+            if (firstRender)
+            {
+                TetrisState.Session.FieldUpdated += StateHasChanged;
+                fieldContainer.FocusAsync();
+            }
+        }
+        else
         {
-            TetrisState.Session.FieldUpdated += StateHasChanged;
-            fieldContainer.FocusAsync();
+            initialSettingsComponent.Applied = new EventCallback(this, (Action)delegate
+            {
+                TetrisState.Session = new Session(initialSettingsComponent.Width, initialSettingsComponent.Height, 1);
+                TetrisState.Session.FieldUpdated += StateHasChanged;
+                TetrisState.Session.AutoMoved += () => fieldContainer.FocusAsync();
+
+                TetrisState.SettingsAccepted = true;
+                TetrisState.Session.StartInBackground();
+            });
         }
     }
 
