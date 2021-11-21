@@ -1,8 +1,7 @@
 ﻿@using LisoTetris.Components.Tetris.Engine;
 @using LisoTetris.Components.Tetris.Parts;
 @using LisoTetris.Services
-
-@inject TetrisState TetrisState
+@inject TetrisStateContainer TetrisState
 
 @if (TetrisState.SettingsAccepted)
 {
@@ -77,7 +76,7 @@ else
 
     private void Pause()
     {
-        if (TetrisState.Session.FieldState.IsBlocked)
+        if (TetrisState.CurrentState == CurrentState.Paused)
             TetrisState.Session.StartInBackground();
         else TetrisState.Session.Stop();
     }
