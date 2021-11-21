@@ -1,19 +1,18 @@
 ﻿@using Engine;
 
-@switch (State)
-{
-    case Pixel.Empty:
-        <div class="pixel" />
-        break;
-    case Pixel.Filled:
-        <div class="pixel pixel-filled" />
-        break;
-    case Pixel.CurrentBlock:
-        <div class="pixel pixel-current-block" />
-        break;
-}
+<div class="pixel @GetStyle()" />
 
 @code {
     [Parameter]
     public Pixel State { get; set; }
+
+    private string GetStyle()
+    {
+        switch (State)
+        {
+            case Pixel.Filled: return "pixel-filled";
+            case Pixel.CurrentBlock: return "pixel-current-block";
+            default: return null;
+        }
+    }
 }
