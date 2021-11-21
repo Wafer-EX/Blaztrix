@@ -1,17 +1,19 @@
-﻿@using Models.Tetris
+﻿@using Microsoft.Extensions.Localization
+@using Models.Tetris
+@inject IStringLocalizer<App> Localize
 
 <EditForm class="form" Model="settingsModel" OnValidSubmit="@ApplySettings">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="input-text-container">
-        <InputNumber @bind-Value="settingsModel.Width" class="input-text" placeholder="Width" />
+        <InputNumber @bind-Value="settingsModel.Width" class="input-text" placeholder="@Localize["Width"]" />
     </div>
     <div class="input-text-container">
-        <InputNumber @bind-Value="settingsModel.Height" class="input-text" placeholder="Height" />
+        <InputNumber @bind-Value="settingsModel.Height" class="input-text" placeholder="@Localize["Height"]" />
     </div>
     <div class=button-container>
-        <input class="button" type="submit" value="Apply" />
+        <input class="button" type="submit" value="@Localize["Apply"]" />
     </div>
 </EditForm>
 

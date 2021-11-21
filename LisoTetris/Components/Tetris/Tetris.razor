@@ -1,7 +1,9 @@
 ﻿@using LisoTetris.Components.Tetris.Engine;
 @using LisoTetris.Components.Tetris.Parts;
 @using LisoTetris.Services
+@using Microsoft.Extensions.Localization
 @inject TetrisStateContainer TetrisState
+@inject IStringLocalizer<App> Localize
 
 @if (TetrisState.SettingsAccepted)
 {
@@ -9,7 +11,7 @@
         <div id="session-container">
             <div id="session-left-container" tabindex="0" @ref="fieldContainer" @onclick="() => fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
                 <p hidden="@(!TetrisState.Session.FieldState.IsBlocked)">
-                    @(TetrisState.Session.IsLost ? "You are lost" : "Paused")
+                    @(TetrisState.Session.IsLost ? Localize["You are lost"] : Localize["Paused"])
                 </p>
                 <Field FieldState="TetrisState.Session.FieldState" />
             </div>
@@ -19,9 +21,11 @@
                 </div>
                 <div id="session-control-container">
                     <div class="button-container">
-                        <button class="button" hidden="@(!TetrisState.Session.IsLost)" @onclick="() => TetrisState.SettingsAccepted = false">Restart</button>
+                        <button class="button" hidden="@(!TetrisState.Session.IsLost)" @onclick="() => TetrisState.SettingsAccepted = false">
+                            @Localize["Restart"]
+                        </button>
                         <button class="button" hidden="@TetrisState.Session.IsLost" @onclick="Pause">
-                            @(TetrisState.Session.FieldState.IsBlocked ? "Continue" : "Pause")
+                            @(TetrisState.Session.FieldState.IsBlocked ? Localize["Continue"] : Localize["Pause"])
                         </button>
                     </div>
                 </div>
@@ -31,7 +35,7 @@
 }
 else
 {
-    <PageContainer Title="Initial Tetris settings">
+    <PageContainer Title="@Localize["Initial Tetris settings"]">
        <div id="session-settings-container">
             <InitialSettings @ref="initialSettingsComponent" />
        </div>

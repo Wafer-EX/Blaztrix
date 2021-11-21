@@ -1,7 +1,8 @@
 ﻿@page "/about"
 @using LisoTetris.Components
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<App> Localize
 
-<PageContainer Title="About author">
-    <p>Hello, I'm Lisowolf, a... programmer? I love to use new technologies so I make this game using Blazor :)
-    I hope you liked it! ❤</p>
+<PageContainer Title="@Localize["About author"]">
+    <p>@Localize["About page description"]</p>
 </PageContainer>

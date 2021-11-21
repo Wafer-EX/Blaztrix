@@ -1,10 +1,16 @@
+@using LisoTetris.Components
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<App> Localize
+
 <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>
     <NotFound>
         <LayoutView Layout="@typeof(MainLayout)">
-            <p>Sorry, there's nothing at this address.</p>
+            <PageContainer Title="@(Localize["Error"] + " 404")">
+                <p>@Localize["Error 404 description"]</p>
+            </PageContainer>
         </LayoutView>
     </NotFound>
 </Router>
