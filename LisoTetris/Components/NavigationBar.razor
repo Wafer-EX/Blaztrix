@@ -1,10 +1,15 @@
-﻿<div class=navbar-container>
+﻿@using LisoTetris.Services
+@inject TetrisStateContainer TetrisState
+
+<div class=navbar-container>
     <ul>
         <li class="button-container">
             <NavLink class="button" href="/">Main</NavLink>
         </li>
         <li class="button-container">
-            <NavLink class="button" href="tetris">Tetris</NavLink>
+            <NavLink class="button" href="tetris">
+                Tetris &nbsp;<StateIndicator State=TetrisState.CurrentState Text="●"/>
+            </NavLink>
         </li>
         <li class="button-container">
             <NavLink class="button" href="about">About</NavLink>

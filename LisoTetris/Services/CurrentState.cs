@@ -1,7 +1,10 @@
-﻿public enum CurrentState
+﻿namespace LisoTetris.Services
 {
-    Settings,
-    InGame,
-    Paused,
-    Lost
+    public enum CurrentState
+    {
+        Settings,
+        InGame,
+        Paused,
+        Lost
+    }
 }
