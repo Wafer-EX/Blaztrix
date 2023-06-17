@@ -6,7 +6,7 @@ namespace LisoTetris.Components.Tetris.Engine
 {
     public class Session
     {
-        private CancellationTokenSource cancelAutoMoveSource = new CancellationTokenSource();
+        private CancellationTokenSource cancelAutoMoveSource = new();
 
         private int score;
 

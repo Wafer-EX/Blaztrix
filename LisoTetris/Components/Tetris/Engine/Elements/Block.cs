@@ -4,7 +4,7 @@ namespace LisoTetris.Components.Tetris.Engine.Elements
 {
     public class Block
     {
-        private static Random random = new Random();
+        private static readonly Random random = new();
 
         public bool[,] Figure { get; set; }
 
