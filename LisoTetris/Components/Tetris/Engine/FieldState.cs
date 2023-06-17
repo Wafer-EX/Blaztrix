@@ -34,8 +34,8 @@ namespace LisoTetris.Components.Tetris.Engine
 
         public FieldState(int width, int height)
         {
-            if (width < 8 || height < 8)
-                throw new ArgumentOutOfRangeException();
+            if (width < 8) throw new ArgumentOutOfRangeException(nameof(width));
+            if (height < 8) throw new ArgumentOutOfRangeException(nameof(height));
 
             Field = new bool[width, height];
             Blocks = new Queue<Block>();

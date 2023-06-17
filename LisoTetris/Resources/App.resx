@@ -124,8 +124,7 @@
     <value>About author</value>
   </data>
   <data name="About page description" xml:space="preserve">
-    <value>Hello, I'm Lisowolf, a... programmer? I love to use new technologies so I make this game using Blazor :)
-I hope you liked it! :з</value>
+    <value>Hello stranger, I'm Lisoplane, I love to try new technologies so I made this simple game using Blazor WebAssembly. I hope you like this app that I made!</value>
   </data>
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
