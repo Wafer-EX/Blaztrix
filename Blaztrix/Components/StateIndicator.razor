@@ -1,0 +1,25 @@
+﻿@using Blaztrix.Services
+
+<span class="indicator @GetStyle()">
+    @Text
+</span>
+
+@code {
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public CurrentState State { get; set; }
+
+    private string GetStyle()
+    {
+        switch (State)
+        {
+            case CurrentState.Settings: return "indicator-settings";
+            case CurrentState.InGame: return "indicator-in-game";
+            case CurrentState.Paused: return "indicator-paused";
+            case CurrentState.Lost: return "indicator-lost";
+            default: return null;
+        }
+    }
+}

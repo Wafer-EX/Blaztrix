@@ -1,0 +1,8 @@
+﻿@page "/"
+@using Blaztrix.Components;
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<App> Localize
+
+<PageContainer Title="Blaztrix">
+    <p>@Localize["Main page description"]</p>
+</PageContainer>
