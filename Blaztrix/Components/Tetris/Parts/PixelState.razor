@@ -1,0 +1,18 @@
+﻿@using Blaztrix.Core;
+
+<div class="pixel @GetStyle()" />
+
+@code {
+    [Parameter]
+    public Pixel State { get; set; }
+
+    private string GetStyle()
+    {
+        return State switch
+        {
+            Pixel.Filled => "pixel-filled",
+            Pixel.CurrentBlock => "pixel-current-block",
+            _ => null
+        };
+    }
+}
