@@ -1,6 +1,6 @@
 ﻿namespace Blaztrix.Services
 {
-    public enum CurrentState
+    public enum CurrentState : byte
     {
         Settings,
         InGame,

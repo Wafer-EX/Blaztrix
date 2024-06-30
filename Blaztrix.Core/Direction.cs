@@ -1,6 +1,6 @@
 ﻿namespace Blaztrix.Core
 {
-    public enum Direction
+    public enum Direction : byte
     {
         Left,
         Right,

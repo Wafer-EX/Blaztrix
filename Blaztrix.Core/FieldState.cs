@@ -8,11 +8,8 @@ namespace Blaztrix.Core
         private bool _isBlocked;
 
         public event Action? Blocked;
-
         public event Action? Lost;
-
         public event Action? LineDeleted;
-
         public event Action? Updated;
 
         public bool IsBlocked
@@ -57,10 +54,10 @@ namespace Blaztrix.Core
 
         private void GenerateNextBlock()
         {
-            var block = new Block(Field.GetLength(0)).Generate();
+            var block = new Block(Field.GetLength(0));
             Blocks.Enqueue(block);
 
-            CurrentBlock ??= new Block(Field.GetLength(0)).Generate();
+            CurrentBlock ??= new Block(Field.GetLength(0));
             if (!CanBePlaced(block.Figure))
             {
                 Lost?.Invoke();

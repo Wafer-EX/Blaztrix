@@ -40,7 +40,9 @@ namespace Blaztrix.Services
                     if (!Session.IsLost)
                     {
                         if (Session.FieldState.IsBlocked)
+                        {
                             return CurrentState.Paused;
+                        }
                         else return CurrentState.InGame;
                     }
                     else return CurrentState.Lost;

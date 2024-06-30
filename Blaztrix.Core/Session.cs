@@ -6,11 +6,8 @@
         private int _score;
 
         public event Action? FieldUpdated;
-
         public event Action? AutoMoved;
-
         public event Action? ScoreChanged;
-
         public event Action? Lost;
 
         public int Score

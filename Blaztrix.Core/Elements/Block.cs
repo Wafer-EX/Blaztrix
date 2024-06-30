@@ -4,13 +4,16 @@ namespace Blaztrix.Core.Elements
 {
     public class Block
     {
-        public bool[,] Figure { get; set; }
+        public bool[,]? Figure { get; set; }
 
         public Point Position { get; set; }
 
         public bool IsSetted { get; set; }
 
-        public Block(int fieldWidth) => Position = new Point(fieldWidth / 2 - 2, 0);
+        public Block(int fieldWidth)
+        {
+            Position = new Point(fieldWidth / 2 - 2, 0);
+        }
 
         public Block Generate()
         {

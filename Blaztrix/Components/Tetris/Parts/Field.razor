@@ -1,15 +1,15 @@
 ﻿@using Blaztrix.Core
 
-@if (displayedData != null)
+@if (_displayedData != null)
 {
     <div id="field-container">
-        <div class="field-overlay" hidden="@(!fieldState.IsBlocked)" />
-        @for (int j = 0; j < displayedData.GetLength(1); j++)
+        <div class="field-overlay" hidden="@(!_fieldState.IsBlocked)" />
+        @for (int j = 0; j < _displayedData.GetLength(1); j++)
         {
             <div class="field-line">
-                @for (int i = 0; i < displayedData.GetLength(0); i++)
+                @for (int i = 0; i < _displayedData.GetLength(0); i++)
                 {
-                    <PixelState State="displayedData[i, j]" />
+                    <PixelState State="_displayedData[i, j]" />
                 }
             </div>
         }
@@ -17,18 +17,18 @@
 }
 
 @code {
-    private FieldState fieldState;
-    private Pixel[,] displayedData;
+    private FieldState _fieldState;
+    private Pixel[,] _displayedData;
 
     [Parameter]
     public FieldState FieldState
     {
-        get => fieldState;
+        get => _fieldState;
         set
         {
-            fieldState = value;
-            if (fieldState != null)
-                displayedData = (Pixel[,])fieldState;
+            _fieldState = value;
+            if (_fieldState != null)
+                _displayedData = (Pixel[,])_fieldState;
         }
     }
 }

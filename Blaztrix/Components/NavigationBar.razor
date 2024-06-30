@@ -26,5 +26,7 @@
 
 @code {
     protected override void OnInitialized()
-        => TetrisState.StateChanged += StateHasChanged;
+    {
+        TetrisState.StateChanged += StateHasChanged;
+    }
 }

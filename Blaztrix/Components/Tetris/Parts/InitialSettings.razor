@@ -2,15 +2,15 @@
 @using Models.Tetris
 @inject IStringLocalizer<App> Localize
 
-<EditForm class="form" Model="settingsModel" OnValidSubmit="@ApplySettings">
+<EditForm class="form" Model="_settingsModel" OnValidSubmit="@ApplySettings">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="input-text-container">
-        <InputNumber @bind-Value="settingsModel.Width" class="input-text" placeholder="@Localize["Width"]" />
+        <InputNumber @bind-Value="_settingsModel.Width" class="input-text" placeholder="@Localize["Width"]" />
     </div>
     <div class="input-text-container">
-        <InputNumber @bind-Value="settingsModel.Height" class="input-text" placeholder="@Localize["Height"]" />
+        <InputNumber @bind-Value="_settingsModel.Height" class="input-text" placeholder="@Localize["Height"]" />
     </div>
     <div class=button-container>
         <input class="button" type="submit" value="@Localize["Apply"]" />
@@ -18,7 +18,7 @@
 </EditForm>
 
 @code {
-    private SettingsModel settingsModel = new SettingsModel();
+    private SettingsModel _settingsModel = new SettingsModel();
 
     public EventCallback Applied { get; set; }
 
@@ -28,8 +28,8 @@
 
     private void ApplySettings()
     {
-        Width = (int)settingsModel.Width;
-        Height = (int)settingsModel.Height;
+        Width = (int)_settingsModel.Width;
+        Height = (int)_settingsModel.Height;
         Applied.InvokeAsync();
     }
 }

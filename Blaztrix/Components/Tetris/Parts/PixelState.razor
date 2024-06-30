@@ -8,11 +8,11 @@
 
     private string GetStyle()
     {
-        switch (State)
+        return State switch
         {
-            case Pixel.Filled: return "pixel-filled";
-            case Pixel.CurrentBlock: return "pixel-current-block";
-            default: return null;
-        }
+            Pixel.Filled => "pixel-filled",
+            Pixel.CurrentBlock => "pixel-current-block",
+            _ => null
+        };
     }
 }
