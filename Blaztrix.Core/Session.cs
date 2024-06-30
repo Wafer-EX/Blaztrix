@@ -3,7 +3,6 @@
     public class Session
     {
         private CancellationTokenSource _cancelAutoMoveSource = new();
-
         private int _score;
 
         public event Action? FieldUpdated;

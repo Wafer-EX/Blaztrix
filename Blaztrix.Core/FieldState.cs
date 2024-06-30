@@ -82,7 +82,7 @@ namespace Blaztrix.Core
                         CurrentBlock.Position = new Point(CurrentBlock.Position.X - 1, CurrentBlock.Position.Y);
                     break;
                 case Direction.Right:
-                    if (CurrentBlock.Position.X != fieldWidth - fieldWidth && CanBePlaced(CurrentBlock.Figure, offsetX: 1))
+                    if (CurrentBlock.Position.X != fieldWidth - figureWidth && CanBePlaced(CurrentBlock.Figure, offsetX: 1))
                         CurrentBlock.Position = new Point(CurrentBlock.Position.X + 1, CurrentBlock.Position.Y);
                     break;
                 case Direction.Down:

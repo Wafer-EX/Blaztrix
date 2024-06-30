@@ -5,29 +5,28 @@ namespace Blaztrix.Services
 {
     public class TetrisStateContainer
     {
-        private bool settingsAccepted;
-
-        private Session session;
+        private bool _settingsAccepted;
+        private Session _session;
 
         public event Action StateChanged;
 
         public Session Session
         {
-            get => session;
+            get => _session;
             set
             {
-                session = value;
-                session.FieldState.Blocked += () => StateChanged?.Invoke();
+                _session = value;
+                _session.FieldState.Blocked += () => StateChanged?.Invoke();
                 StateChanged?.Invoke();
             }
         }
 
         public bool SettingsAccepted
         {
-            get => settingsAccepted;
+            get => _settingsAccepted;
             set
             {
-                settingsAccepted = value;
+                _settingsAccepted = value;
                 StateChanged?.Invoke();
             }
         }
