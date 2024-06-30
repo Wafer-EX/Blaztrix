@@ -1,25 +1,26 @@
 ﻿using Blaztrix.Core.Elements;
+using System.Drawing;
 
 namespace Blaztrix.Core
 {
     public class FieldState
     {
-        private bool isBlocked;
+        private bool _isBlocked;
 
-        public event Action Blocked;
+        public event Action? Blocked;
 
-        public event Action Lost;
+        public event Action? Lost;
 
-        public event Action LineDeleted;
+        public event Action? LineDeleted;
 
-        public event Action Updated;
+        public event Action? Updated;
 
         public bool IsBlocked
         {
-            get => isBlocked;
+            get => _isBlocked;
             set
             {
-                isBlocked = value;
+                _isBlocked = value;
                 Blocked?.Invoke();
             }
         }
@@ -73,21 +74,20 @@ namespace Blaztrix.Core
             int figureHeight = CurrentBlock.Figure.GetLength(1);
             int fieldWidth = Field.GetLength(0);
             int fieldHeight = Field.GetLength(1);
-            Position position = CurrentBlock.Position;
 
             switch (direction)
             {
                 case Direction.Left:
-                    if (position.X != 0 && CanBePlaced(CurrentBlock.Figure, offsetX: -1))
-                        position.X -= 1;
+                    if (CurrentBlock.Position.X != 0 && CanBePlaced(CurrentBlock.Figure, offsetX: -1))
+                        CurrentBlock.Position = new Point(CurrentBlock.Position.X - 1, CurrentBlock.Position.Y);
                     break;
                 case Direction.Right:
-                    if (position.X != fieldWidth - figureWidth && CanBePlaced(CurrentBlock.Figure, offsetX: 1))
-                        position.X += 1;
+                    if (CurrentBlock.Position.X != fieldWidth - fieldWidth && CanBePlaced(CurrentBlock.Figure, offsetX: 1))
+                        CurrentBlock.Position = new Point(CurrentBlock.Position.X + 1, CurrentBlock.Position.Y);
                     break;
                 case Direction.Down:
-                    if (position.Y != fieldHeight - figureHeight && CanBePlaced(CurrentBlock.Figure, offsetY: 1))
-                        position.Y += 1;
+                    if (CurrentBlock.Position.Y != fieldHeight - figureHeight && CanBePlaced(CurrentBlock.Figure, offsetY: 1))
+                        CurrentBlock.Position = new Point(CurrentBlock.Position.X, CurrentBlock.Position.Y + 1);
                     else PlaceBlock();
                     break;
                 case Direction.Around:
@@ -115,14 +115,13 @@ namespace Blaztrix.Core
             if (CanBePlaced(newFigure, offsetX, offsetY))
             {
                 CurrentBlock.Figure = newFigure;
-                CurrentBlock.Position.X += offsetX;
-                CurrentBlock.Position.Y += offsetY;
+                CurrentBlock.Position = new Point(CurrentBlock.Position.X + offsetX, CurrentBlock.Position.Y + offsetY);
             }
         }
 
         private bool CanBePlaced(bool[,] figure, int offsetX = 0, int offsetY = 0)
         {
-            Position position = CurrentBlock.Position;
+            Point position = CurrentBlock.Position;
             int figureWidth = figure.GetLength(0);
             int figureHeight = figure.GetLength(1);
 
@@ -143,7 +142,7 @@ namespace Blaztrix.Core
 
         private void PlaceBlock()
         {
-            Position position = CurrentBlock.Position;
+            Point position = CurrentBlock.Position;
             int figureWidth = CurrentBlock.Figure.GetLength(0);
             int figureHeight = CurrentBlock.Figure.GetLength(1);
 
@@ -202,7 +201,7 @@ namespace Blaztrix.Core
                 }
             }
 
-            Position blockPosition = fieldState.CurrentBlock.Position;
+            Point blockPosition = fieldState.CurrentBlock.Position;
             int figureWidth = fieldState.CurrentBlock.Figure.GetLength(0);
             int figureHeight = fieldState.CurrentBlock.Figure.GetLength(1);
 

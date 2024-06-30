@@ -2,25 +2,25 @@
 {
     public class Session
     {
-        private CancellationTokenSource cancelAutoMoveSource = new();
+        private CancellationTokenSource _cancelAutoMoveSource = new();
 
-        private int score;
+        private int _score;
 
-        public event Action FieldUpdated;
+        public event Action? FieldUpdated;
 
-        public event Action AutoMoved;
+        public event Action? AutoMoved;
 
-        public event Action ScoreChanged;
+        public event Action? ScoreChanged;
 
-        public event Action Lost;
+        public event Action? Lost;
 
         public int Score
         {
-            get => score;
+            get => _score;
             private set
             {
-                score = value;
-                if (score % 5 == 0) Speed++;
+                _score = value;
+                if (_score % 5 == 0) Speed++;
             }
         }
 
@@ -55,10 +55,10 @@
             if (!IsLost)
             {
                 FieldState.IsBlocked = false;
-                if (cancelAutoMoveSource.IsCancellationRequested)
+                if (_cancelAutoMoveSource.IsCancellationRequested)
                 {
-                    cancelAutoMoveSource.Dispose();
-                    cancelAutoMoveSource = new CancellationTokenSource();
+                    _cancelAutoMoveSource.Dispose();
+                    _cancelAutoMoveSource = new CancellationTokenSource();
                 }
 
                 Task.Run(async delegate
@@ -67,7 +67,7 @@
                     {
                         FieldState.Update(Direction.Down);
                         AutoMoved?.Invoke();
-                        await Task.Delay(1000 / Speed, cancelAutoMoveSource.Token);
+                        await Task.Delay(1000 / Speed, _cancelAutoMoveSource.Token);
                     }
                 });
             }
@@ -76,7 +76,7 @@
         public void Stop()
         {
             FieldState.IsBlocked = true;
-            cancelAutoMoveSource.Cancel();
+            _cancelAutoMoveSource.Cancel();
         }
 
         public void Control(Direction direction) => FieldState.Update(direction);
