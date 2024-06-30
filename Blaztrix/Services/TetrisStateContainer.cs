@@ -1,4 +1,4 @@
-﻿using Blaztrix.Components.Tetris.Engine;
+﻿using Blaztrix.Core;
 using System;
 
 namespace Blaztrix.Services

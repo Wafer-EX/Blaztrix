@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blaztrix", "Blaztrix\Blaztrix.csproj", "{F37BF6B9-A1D9-4B8A-B5EE-534D3345A800}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaztrix.Core", "Blaztrix.Core\Blaztrix.Core.csproj", "{FD769719-2D3D-4B85-B71C-511BDBC0D5A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F37BF6B9-A1D9-4B8A-B5EE-534D3345A800}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F37BF6B9-A1D9-4B8A-B5EE-534D3345A800}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F37BF6B9-A1D9-4B8A-B5EE-534D3345A800}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD769719-2D3D-4B85-B71C-511BDBC0D5A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD769719-2D3D-4B85-B71C-511BDBC0D5A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD769719-2D3D-4B85-B71C-511BDBC0D5A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD769719-2D3D-4B85-B71C-511BDBC0D5A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

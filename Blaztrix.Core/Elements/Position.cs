@@ -1,4 +1,4 @@
-﻿namespace Blaztrix.Components.Tetris.Engine.Elements
+﻿namespace Blaztrix.Core.Elements
 {
     public class Position
     {

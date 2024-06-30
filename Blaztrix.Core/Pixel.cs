@@ -1,4 +1,4 @@
-﻿namespace Blaztrix.Components.Tetris.Engine
+﻿namespace Blaztrix.Core
 {
     public enum Pixel
     {

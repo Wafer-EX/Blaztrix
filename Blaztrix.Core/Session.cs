@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Blaztrix.Components.Tetris.Engine
+﻿namespace Blaztrix.Core
 {
     public class Session
     {

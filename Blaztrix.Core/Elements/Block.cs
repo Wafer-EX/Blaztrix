@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Blaztrix.Components.Tetris.Engine.Elements
+﻿namespace Blaztrix.Core.Elements
 {
     public class Block
     {

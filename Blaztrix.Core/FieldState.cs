@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Blaztrix.Components.Tetris.Engine.Elements;
+﻿using Blaztrix.Core.Elements;
 
-namespace Blaztrix.Components.Tetris.Engine
+namespace Blaztrix.Core
 {
     public class FieldState
     {
@@ -160,7 +158,7 @@ namespace Blaztrix.Components.Tetris.Engine
             CurrentBlock.IsSetted = true;
 
             for (int heightPoint = position.Y; heightPoint < position.Y + figureHeight; heightPoint++)
-              if (LineIsFull(heightPoint)) DeleteLine(heightPoint);
+                if (LineIsFull(heightPoint)) DeleteLine(heightPoint);
         }
 
         private bool LineIsFull(int lineIndex)
@@ -170,7 +168,7 @@ namespace Blaztrix.Components.Tetris.Engine
 
             for (int widthPoint = 0; widthPoint < fieldWidth; widthPoint++)
                 if (Field[widthPoint, lineIndex]) sum++;
-            
+
             if (sum == fieldWidth) return true;
             else return false;
         }
