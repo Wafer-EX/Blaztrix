@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Blaztrix.Models.Tetris
+namespace Blaztrix.Models
 {
-    public class SettingsModel
+    public class BlaztrixFieldModel
     {
         [Required]
         [Range(8, 20)]
