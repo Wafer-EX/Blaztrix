@@ -2,10 +2,7 @@
 
 namespace Blaztrix.Services
 {
-    public enum CurrentState : byte
-    {
-        NotInitialized, InGame, Paused, Lost
-    }
+    public enum CurrentState : byte { NotInitialized, InGame, Paused, Lost }
 
     public class BlaztrixStateContainer
     {
@@ -31,27 +28,9 @@ namespace Blaztrix.Services
             get
             {
                 if (_session == null)
-                {
                     return CurrentState.NotInitialized;
-                }
-                else
-                {
-                    if (!_session.IsLost)
-                    {
-                        if (_session.FieldState.IsBlocked)
-                        {
-                            return CurrentState.Paused;
-                        }
-                        else
-                        {
-                            return CurrentState.InGame;
-                        }
-                    }
-                    else
-                    {
-                        return CurrentState.Lost;
-                    }
-                }
+
+                return _session.IsLost ? CurrentState.Lost : (_session.FieldState.IsBlocked ? CurrentState.Paused : CurrentState.InGame);
             }
         }
     }
