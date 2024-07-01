@@ -2,38 +2,26 @@
 
 namespace Blaztrix.Services
 {
-    public enum CurrentState
+    public enum CurrentState : byte
     {
-        Settings,
-        InGame,
-        Paused,
-        Lost
+        NotInitialized, InGame, Paused, Lost
     }
 
     public class BlaztrixStateContainer
     {
-        private bool _settingsAccepted;
-        private Session _session;
+        private Session? _session;
 
-        public event Action StateChanged;
+        public event Action? StateChanged;
 
-        public Session Session
+        public Session? Session
         {
             get => _session;
             set
             {
                 _session = value;
-                _session.FieldState.Blocked += () => StateChanged?.Invoke();
-                StateChanged?.Invoke();
-            }
-        }
+                if (_session != null)
+                    _session.FieldState.Blocked += () => StateChanged?.Invoke();
 
-        public bool SettingsAccepted
-        {
-            get => _settingsAccepted;
-            set
-            {
-                _settingsAccepted = value;
                 StateChanged?.Invoke();
             }
         }
@@ -42,19 +30,28 @@ namespace Blaztrix.Services
         {
             get
             {
-                if (SettingsAccepted)
+                if (_session == null)
                 {
-                    if (!Session.IsLost)
+                    return CurrentState.NotInitialized;
+                }
+                else
+                {
+                    if (!_session.IsLost)
                     {
-                        if (Session.FieldState.IsBlocked)
+                        if (_session.FieldState.IsBlocked)
                         {
                             return CurrentState.Paused;
                         }
-                        else return CurrentState.InGame;
+                        else
+                        {
+                            return CurrentState.InGame;
+                        }
                     }
-                    else return CurrentState.Lost;
+                    else
+                    {
+                        return CurrentState.Lost;
+                    }
                 }
-                else return CurrentState.Settings;
             }
         }
     }

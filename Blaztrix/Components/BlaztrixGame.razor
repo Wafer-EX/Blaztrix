@@ -7,7 +7,7 @@
 @inject BlaztrixStateContainer BlaztrixState
 @inject IStringLocalizer<App> Localize
 
-@if (BlaztrixState.SettingsAccepted)
+@if (_areSettingsAccepted)
 {
     <PageContainer EnableContentContainer=false>
         <div id="session-container">
@@ -32,7 +32,7 @@
                 </div>
                 <div id="session-control-container">
                     <div class="button-container">
-                        <button class="button" hidden="@(!BlaztrixState.Session.IsLost)" @onclick="() => BlaztrixState.SettingsAccepted = false">
+                        <button class="button" hidden="@(!BlaztrixState.Session.IsLost)" @onclick="Restart">
                             @Localize["Restart"]
                         </button>
                         <button class="button" hidden="@BlaztrixState.Session.IsLost" @onclick="Pause">
@@ -69,10 +69,11 @@ else
 @code {
     private ElementReference _fieldContainer;
     private BlaztrixFieldModel _fieldModel = new();
+    private bool _areSettingsAccepted;
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if (BlaztrixState.Session != null && BlaztrixState.SettingsAccepted)
+        if (BlaztrixState.Session != null && _areSettingsAccepted)
         {
             BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
             if (firstRender)
@@ -85,12 +86,15 @@ else
 
     private void KeyHandler(KeyboardEventArgs e)
     {
-        switch (e.Key)
+        if (BlaztrixState.Session != null)
         {
-            case "ArrowLeft": BlaztrixState.Session.Control(Direction.Left); break;
-            case "ArrowRight": BlaztrixState.Session.Control(Direction.Right); break;
-            case "ArrowDown": BlaztrixState.Session.Control(Direction.Down); break;
-            case " ": BlaztrixState.Session.Control(Direction.Around); break;
+            switch (e.Key)
+            {
+                case "ArrowLeft": BlaztrixState.Session.Control(Direction.Left); break;
+                case "ArrowRight": BlaztrixState.Session.Control(Direction.Right); break;
+                case "ArrowDown": BlaztrixState.Session.Control(Direction.Down); break;
+                case " ": BlaztrixState.Session.Control(Direction.Around); break;
+            }
         }
     }
 
@@ -100,19 +104,28 @@ else
         BlaztrixState.Session.FieldUpdated += StateHasChanged;
         BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
 
-        BlaztrixState.SettingsAccepted = true;
+        _areSettingsAccepted = true;
         BlaztrixState.Session.StartInBackground();
     }
 
     private void Pause()
     {
-        if (BlaztrixState.CurrentState == CurrentState.Paused)
+        if (BlaztrixState.Session != null)
         {
-            BlaztrixState.Session.StartInBackground();
+            if (BlaztrixState.CurrentState == CurrentState.Paused)
+            {
+                BlaztrixState.Session.StartInBackground();
+            }
+            else
+            {
+                BlaztrixState.Session.Stop();
+            }
         }
-        else
-        {
-            BlaztrixState.Session.Stop();
-        }
+    }
+
+    private void Restart()
+    {
+        _areSettingsAccepted = false;
+        BlaztrixState.Session = null;
     }
 }
