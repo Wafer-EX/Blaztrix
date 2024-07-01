@@ -69,19 +69,6 @@ else
     private ElementReference _fieldContainer;
     private BlaztrixFieldModel _fieldModel = new();
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (BlaztrixState.Session != null && BlaztrixState.CurrentState != CurrentState.NotInitialized)
-        {
-            BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
-            if (firstRender)
-            {
-                BlaztrixState.Session.FieldUpdated += StateHasChanged;
-                _fieldContainer.FocusAsync();
-            }
-        }
-    }
-
     private void KeyHandler(KeyboardEventArgs e)
     {
         if (BlaztrixState.Session != null)
@@ -98,7 +85,10 @@ else
 
     private void ApplySettings()
     {
-        BlaztrixState.Session = new Session(_fieldModel.Width ?? 0, _fieldModel.Height ?? 0, 1);
+        int newFieldWidth = _fieldModel.Width ?? throw new NullReferenceException();
+        int newFieldHeight = _fieldModel.Height ?? throw new NullReferenceException();
+
+        BlaztrixState.Session = new Session(newFieldWidth, newFieldHeight, 1);
         BlaztrixState.Session.FieldUpdated += StateHasChanged;
         BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
         BlaztrixState.Session.StartInBackground();
@@ -109,13 +99,9 @@ else
         if (BlaztrixState.Session != null)
         {
             if (BlaztrixState.CurrentState == CurrentState.Paused)
-            {
                 BlaztrixState.Session.StartInBackground();
-            }
             else
-            {
                 BlaztrixState.Session.Stop();
-            }
         }
     }
 
