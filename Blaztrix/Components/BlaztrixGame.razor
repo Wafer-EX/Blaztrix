@@ -1,5 +1,4 @@
 ﻿@using Blaztrix.Core;
-@using Blaztrix.Components.Parts;
 @using Blaztrix.Models
 @using Blaztrix.Services
 @using Microsoft.Extensions.Localization
@@ -15,7 +14,7 @@
                 <p hidden="@(!BlaztrixState.Session.FieldState.IsBlocked)">
                     @(BlaztrixState.Session.IsLost ? Localize["You are lost"] : Localize["Paused"])
                 </p>
-                <Field FieldState="BlaztrixState.Session.FieldState" />
+                <BlaztrixField FieldState="BlaztrixState.Session.FieldState" />
             </div>
             <div id="session-right-container">
                 <div id="session-info-container">
