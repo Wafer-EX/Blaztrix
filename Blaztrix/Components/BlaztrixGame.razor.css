@@ -50,6 +50,17 @@
     flex-grow: 1;
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
 @keyframes session-display-message {
     from {
         opacity: 0;

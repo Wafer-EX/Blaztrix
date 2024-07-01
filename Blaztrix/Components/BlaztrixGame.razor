@@ -1,0 +1,107 @@
+﻿@using Blaztrix.Core;
+@using Blaztrix.Components.Parts;
+@using Blaztrix.Services
+@using Microsoft.Extensions.Localization
+
+@inject BlaztrixStateContainer BlaztrixState
+@inject IStringLocalizer<App> Localize
+
+@if (BlaztrixState.SettingsAccepted)
+{
+    <PageContainer EnableContentContainer=false>
+        <div id="session-container">
+            <div id="session-left-container" tabindex="0" @ref="_fieldContainer" @onclick="() => _fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
+                <p hidden="@(!BlaztrixState.Session.FieldState.IsBlocked)">
+                    @(BlaztrixState.Session.IsLost ? Localize["You are lost"] : Localize["Paused"])
+                </p>
+                <Field FieldState="BlaztrixState.Session.FieldState" />
+            </div>
+            <div id="session-right-container">
+                <div id="session-info-container">
+                    <table>
+                        <tr>
+                            <th align="left">@Localize["Score"]: </th>
+                            <td align="right">@BlaztrixState.Session.Score</td>
+                        </tr>
+                        <tr>
+                            <th align="left">@Localize["Speed"]: </th>
+                            <td align="right">@BlaztrixState.Session.Speed</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="session-control-container">
+                    <div class="button-container">
+                        <button class="button" hidden="@(!BlaztrixState.Session.IsLost)" @onclick="() => BlaztrixState.SettingsAccepted = false">
+                            @Localize["Restart"]
+                        </button>
+                        <button class="button" hidden="@BlaztrixState.Session.IsLost" @onclick="Pause">
+                            @(BlaztrixState.Session.FieldState.IsBlocked ? Localize["Continue"] : Localize["Pause"])
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </PageContainer>
+}
+else
+{
+    <PageContainer Title="@Localize["Initial Blaztrix settings"]">
+       <div id="session-settings-container">
+            <InitialSettings @ref="_initialSettingsComponent" />
+       </div>
+    </PageContainer>
+}
+
+@code {
+    private ElementReference _fieldContainer;
+    private static InitialSettings _initialSettingsComponent;
+
+    protected override void OnInitialized()
+    {
+        if (_initialSettingsComponent == null)
+            _initialSettingsComponent = new InitialSettings();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (BlaztrixState.Session != null && BlaztrixState.SettingsAccepted)
+        {
+            BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
+            if (firstRender)
+            {
+                BlaztrixState.Session.FieldUpdated += StateHasChanged;
+                _fieldContainer.FocusAsync();
+            }
+        }
+        else
+        {
+            _initialSettingsComponent.Applied = new EventCallback(this, (Action)delegate
+            {
+                BlaztrixState.Session = new Session(_initialSettingsComponent.Width, _initialSettingsComponent.Height, 1);
+                BlaztrixState.Session.FieldUpdated += StateHasChanged;
+                BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
+
+                BlaztrixState.SettingsAccepted = true;
+                BlaztrixState.Session.StartInBackground();
+            });
+        }
+    }
+
+    private void KeyHandler(KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "ArrowLeft": BlaztrixState.Session.Control(Direction.Left); break;
+            case "ArrowRight": BlaztrixState.Session.Control(Direction.Right); break;
+            case "ArrowDown": BlaztrixState.Session.Control(Direction.Down); break;
+            case " ": BlaztrixState.Session.Control(Direction.Around); break;
+        }
+    }
+
+    private void Pause()
+    {
+        if (BlaztrixState.CurrentState == CurrentState.Paused)
+            BlaztrixState.Session.StartInBackground();
+        else BlaztrixState.Session.Stop();
+    }
+}

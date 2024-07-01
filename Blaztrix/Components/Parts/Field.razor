@@ -1,0 +1,40 @@
+﻿@using Blaztrix.Core
+
+@if (_displayedData != null)
+{
+    <div id="field-container">
+        <div class="field-overlay" hidden="@(!FieldState?.IsBlocked ?? true)" />
+        @for (int j = 0; j < _displayedData.GetLength(1); j++)
+        {
+            <div class="field-line">
+                @for (int i = 0; i < _displayedData.GetLength(0); i++)
+                {
+                    <div class="pixel @GetPixelStyle(_displayedData[i, j])" />
+                }
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private Pixel[,]? _displayedData;
+
+    [Parameter]
+    public FieldState? FieldState { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (FieldState != null)
+            _displayedData = (Pixel[,])FieldState;
+    }
+
+    private string? GetPixelStyle(Pixel pixel)
+    {
+        return pixel switch
+        {
+            Pixel.Filled => "pixel-filled",
+            Pixel.CurrentBlock => "pixel-current-block",
+            _ => null
+        };
+    }
+}

@@ -124,10 +124,13 @@
     <value>About author</value>
   </data>
   <data name="About page description" xml:space="preserve">
-    <value>Hello stranger, I'm Lisoplane, I love to try new technologies so I made this simple game using Blazor WebAssembly. I hope you like this app that I made!</value>
+    <value>Hello stranger. I like to try new technologies so I made this simple game using Blazor WebAssembly. I hope you like it!</value>
   </data>
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
+  </data>
+  <data name="Blaztrix" xml:space="preserve">
+    <value>Blaztrix</value>
   </data>
   <data name="Continue" xml:space="preserve">
     <value>Continue</value>
@@ -141,8 +144,8 @@
   <data name="Height" xml:space="preserve">
     <value>Height</value>
   </data>
-  <data name="Initial Tetris settings" xml:space="preserve">
-    <value>Initial Tetris settings</value>
+  <data name="Initial Blaztrix settings" xml:space="preserve">
+    <value>Initial Blaztrix settings</value>
   </data>
   <data name="Main" xml:space="preserve">
     <value>Main</value>
@@ -164,9 +167,6 @@
   </data>
   <data name="Speed" xml:space="preserve">
     <value>Speed</value>
-  </data>
-  <data name="Tetris" xml:space="preserve">
-    <value>Tetris</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Width</value>
