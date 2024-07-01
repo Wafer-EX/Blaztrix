@@ -35,19 +35,3 @@ li {
 .state-indicator {
     font-size: 14px;
 }
-
-.state-indicator-not-initialized {
-    color: #353535;
-}
-
-.state-indicator-in-game {
-    color: #00ff8b
-}
-
-.state-indicator-paused {
-    color: #ffe24d;
-}
-
-.state-indicator-lost {
-    color: #ff6161
-}
