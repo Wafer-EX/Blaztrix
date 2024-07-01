@@ -54,10 +54,10 @@ namespace Blaztrix.Core
 
         private void GenerateNextBlock()
         {
-            var block = new Block(Field.GetLength(0));
+            var block = new Block(Field.GetLength(0)).Generate();
             Blocks.Enqueue(block);
 
-            CurrentBlock ??= new Block(Field.GetLength(0));
+            CurrentBlock ??= new Block(Field.GetLength(0)).Generate();
             if (!CanBePlaced(block.Figure))
             {
                 Lost?.Invoke();
