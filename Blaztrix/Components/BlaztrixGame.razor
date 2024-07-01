@@ -18,7 +18,16 @@
             </div>
             <div id="session-right-container">
                 <div id="session-info-container">
-                    <Info Score="BlaztrixState.Session.Score" Speed="BlaztrixState.Session.Speed" />
+                    <table>
+                        <tr>
+                            <th align="left">@Localize["Score"]: </th>
+                            <td align="right">@BlaztrixState.Session.Score</td>
+                        </tr>
+                        <tr>
+                            <th align="left">@Localize["Speed"]: </th>
+                            <td align="right">@BlaztrixState.Session.Speed</td>
+                        </tr>
+                    </table>
                 </div>
                 <div id="session-control-container">
                     <div class="button-container">
