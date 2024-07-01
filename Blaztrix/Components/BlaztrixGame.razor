@@ -6,7 +6,7 @@
 @inject BlaztrixStateContainer BlaztrixState
 @inject IStringLocalizer<App> Localize
 
-@if (_areSettingsAccepted || BlaztrixState.CurrentState != CurrentState.NotInitialized)
+@if (BlaztrixState.CurrentState != CurrentState.NotInitialized)
 {
     <PageContainer EnableContentContainer=false>
         <div id="session-container">
@@ -68,11 +68,10 @@ else
 @code {
     private ElementReference _fieldContainer;
     private BlaztrixFieldModel _fieldModel = new();
-    private bool _areSettingsAccepted;
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if (BlaztrixState.Session != null && _areSettingsAccepted)
+        if (BlaztrixState.Session != null && BlaztrixState.CurrentState != CurrentState.NotInitialized)
         {
             BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
             if (firstRender)
@@ -102,8 +101,6 @@ else
         BlaztrixState.Session = new Session(_fieldModel.Width ?? 0, _fieldModel.Height ?? 0, 1);
         BlaztrixState.Session.FieldUpdated += StateHasChanged;
         BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
-
-        _areSettingsAccepted = true;
         BlaztrixState.Session.StartInBackground();
     }
 
@@ -122,9 +119,5 @@ else
         }
     }
 
-    private void Restart()
-    {
-        _areSettingsAccepted = false;
-        BlaztrixState.Session = null;
-    }
+    private void Restart() => BlaztrixState.Session = null;
 }
