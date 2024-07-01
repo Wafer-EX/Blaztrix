@@ -2,30 +2,31 @@
 @using Blaztrix.Components.Parts;
 @using Blaztrix.Services
 @using Microsoft.Extensions.Localization
-@inject BlaztrixStateContainer TetrisState
+
+@inject BlaztrixStateContainer BlaztrixState
 @inject IStringLocalizer<App> Localize
 
-@if (TetrisState.SettingsAccepted)
+@if (BlaztrixState.SettingsAccepted)
 {
     <PageContainer EnableContentContainer=false>
         <div id="session-container">
             <div id="session-left-container" tabindex="0" @ref="_fieldContainer" @onclick="() => _fieldContainer.FocusAsync()" @onkeydown="KeyHandler">
-                <p hidden="@(!TetrisState.Session.FieldState.IsBlocked)">
-                    @(TetrisState.Session.IsLost ? Localize["You are lost"] : Localize["Paused"])
+                <p hidden="@(!BlaztrixState.Session.FieldState.IsBlocked)">
+                    @(BlaztrixState.Session.IsLost ? Localize["You are lost"] : Localize["Paused"])
                 </p>
-                <Field FieldState="TetrisState.Session.FieldState" />
+                <Field FieldState="BlaztrixState.Session.FieldState" />
             </div>
             <div id="session-right-container">
                 <div id="session-info-container">
-                    <Info Score="TetrisState.Session.Score" Speed="TetrisState.Session.Speed" />
+                    <Info Score="BlaztrixState.Session.Score" Speed="BlaztrixState.Session.Speed" />
                 </div>
                 <div id="session-control-container">
                     <div class="button-container">
-                        <button class="button" hidden="@(!TetrisState.Session.IsLost)" @onclick="() => TetrisState.SettingsAccepted = false">
+                        <button class="button" hidden="@(!BlaztrixState.Session.IsLost)" @onclick="() => BlaztrixState.SettingsAccepted = false">
                             @Localize["Restart"]
                         </button>
-                        <button class="button" hidden="@TetrisState.Session.IsLost" @onclick="Pause">
-                            @(TetrisState.Session.FieldState.IsBlocked ? Localize["Continue"] : Localize["Pause"])
+                        <button class="button" hidden="@BlaztrixState.Session.IsLost" @onclick="Pause">
+                            @(BlaztrixState.Session.FieldState.IsBlocked ? Localize["Continue"] : Localize["Pause"])
                         </button>
                     </div>
                 </div>
@@ -54,12 +55,12 @@ else
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if (TetrisState.Session != null && TetrisState.SettingsAccepted)
+        if (BlaztrixState.Session != null && BlaztrixState.SettingsAccepted)
         {
-            TetrisState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
+            BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
             if (firstRender)
             {
-                TetrisState.Session.FieldUpdated += StateHasChanged;
+                BlaztrixState.Session.FieldUpdated += StateHasChanged;
                 _fieldContainer.FocusAsync();
             }
         }
@@ -67,12 +68,12 @@ else
         {
             _initialSettingsComponent.Applied = new EventCallback(this, (Action)delegate
             {
-                TetrisState.Session = new Session(_initialSettingsComponent.Width, _initialSettingsComponent.Height, 1);
-                TetrisState.Session.FieldUpdated += StateHasChanged;
-                TetrisState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
+                BlaztrixState.Session = new Session(_initialSettingsComponent.Width, _initialSettingsComponent.Height, 1);
+                BlaztrixState.Session.FieldUpdated += StateHasChanged;
+                BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
 
-                TetrisState.SettingsAccepted = true;
-                TetrisState.Session.StartInBackground();
+                BlaztrixState.SettingsAccepted = true;
+                BlaztrixState.Session.StartInBackground();
             });
         }
     }
@@ -81,17 +82,17 @@ else
     {
         switch (e.Key)
         {
-            case "ArrowLeft": TetrisState.Session.Control(Direction.Left); break;
-            case "ArrowRight": TetrisState.Session.Control(Direction.Right); break;
-            case "ArrowDown": TetrisState.Session.Control(Direction.Down); break;
-            case " ": TetrisState.Session.Control(Direction.Around); break;
+            case "ArrowLeft": BlaztrixState.Session.Control(Direction.Left); break;
+            case "ArrowRight": BlaztrixState.Session.Control(Direction.Right); break;
+            case "ArrowDown": BlaztrixState.Session.Control(Direction.Down); break;
+            case " ": BlaztrixState.Session.Control(Direction.Around); break;
         }
     }
 
     private void Pause()
     {
-        if (TetrisState.CurrentState == CurrentState.Paused)
-            TetrisState.Session.StartInBackground();
-        else TetrisState.Session.Stop();
+        if (BlaztrixState.CurrentState == CurrentState.Paused)
+            BlaztrixState.Session.StartInBackground();
+        else BlaztrixState.Session.Stop();
     }
 }

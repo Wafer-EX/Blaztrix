@@ -2,6 +2,14 @@
 
 namespace Blaztrix.Services
 {
+    public enum CurrentState
+    {
+        Settings,
+        InGame,
+        Paused,
+        Lost
+    }
+
     public class BlaztrixStateContainer
     {
         private bool _settingsAccepted;

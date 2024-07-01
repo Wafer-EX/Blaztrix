@@ -1,7 +1,8 @@
 ﻿@using Blaztrix.Components
 @using Blaztrix.Services
 @using Microsoft.Extensions.Localization
-@inject BlaztrixStateContainer TetrisState
+
+@inject BlaztrixStateContainer BlaxtrixState
 @inject IStringLocalizer<App> Localize
 
 <div class=navbar-container>
@@ -14,7 +15,7 @@
         <li class="button-container">
             <NavLink class="button" href="/game">
                 @Localize["Blaztrix"]
-                &nbsp;<StateIndicator State=TetrisState.CurrentState Text="●"/>
+                &nbsp;<StateIndicator State=BlaxtrixState.CurrentState Text="●" />
             </NavLink>
         </li>
         <li class="button-container">
@@ -28,6 +29,6 @@
 @code {
     protected override void OnInitialized()
     {
-        TetrisState.StateChanged += StateHasChanged;
+        BlaxtrixState.StateChanged += StateHasChanged;
     }
 }
