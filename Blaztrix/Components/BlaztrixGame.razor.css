@@ -61,6 +61,12 @@ th, td {
     font-weight: 500;
 }
 
+.settings-form-elements-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 @keyframes session-display-message {
     from {
         opacity: 0;

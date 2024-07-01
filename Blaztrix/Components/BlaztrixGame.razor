@@ -1,5 +1,6 @@
 ﻿@using Blaztrix.Core;
 @using Blaztrix.Components.Parts;
+@using Blaztrix.Models
 @using Blaztrix.Services
 @using Microsoft.Extensions.Localization
 
@@ -47,20 +48,27 @@ else
 {
     <PageContainer Title="@Localize["Initial Blaztrix settings"]">
        <div id="session-settings-container">
-            <InitialSettings @ref="_initialSettingsComponent" />
+            <EditForm class="form" Model="_fieldModel" OnValidSubmit="@ApplySettings">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="input-text-container">
+                    <InputNumber @bind-Value="_fieldModel.Width" class="input-text" placeholder="@Localize["Width"]" />
+                </div>
+                <div class="input-text-container">
+                    <InputNumber @bind-Value="_fieldModel.Height" class="input-text" placeholder="@Localize["Height"]" />
+                </div>
+                <div class=button-container>
+                    <input class="button" type="submit" value="@Localize["Apply"]" />
+                </div>
+            </EditForm>
        </div>
     </PageContainer>
 }
 
 @code {
     private ElementReference _fieldContainer;
-    private static InitialSettings _initialSettingsComponent;
-
-    protected override void OnInitialized()
-    {
-        if (_initialSettingsComponent == null)
-            _initialSettingsComponent = new InitialSettings();
-    }
+    private BlaztrixFieldModel _fieldModel = new();
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -72,18 +80,6 @@ else
                 BlaztrixState.Session.FieldUpdated += StateHasChanged;
                 _fieldContainer.FocusAsync();
             }
-        }
-        else
-        {
-            _initialSettingsComponent.Applied = new EventCallback(this, (Action)delegate
-            {
-                BlaztrixState.Session = new Session(_initialSettingsComponent.Width, _initialSettingsComponent.Height, 1);
-                BlaztrixState.Session.FieldUpdated += StateHasChanged;
-                BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
-
-                BlaztrixState.SettingsAccepted = true;
-                BlaztrixState.Session.StartInBackground();
-            });
         }
     }
 
@@ -98,10 +94,25 @@ else
         }
     }
 
+    private void ApplySettings()
+    {
+        BlaztrixState.Session = new Session(_fieldModel.Width ?? 0, _fieldModel.Height ?? 0, 1);
+        BlaztrixState.Session.FieldUpdated += StateHasChanged;
+        BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
+
+        BlaztrixState.SettingsAccepted = true;
+        BlaztrixState.Session.StartInBackground();
+    }
+
     private void Pause()
     {
         if (BlaztrixState.CurrentState == CurrentState.Paused)
+        {
             BlaztrixState.Session.StartInBackground();
-        else BlaztrixState.Session.Stop();
+        }
+        else
+        {
+            BlaztrixState.Session.Stop();
+        }
     }
 }
