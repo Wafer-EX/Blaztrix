@@ -3,7 +3,7 @@
 @if (_displayedData != null)
 {
     <div id="field-container">
-        <div class="field-overlay" hidden="@(!_fieldState.IsBlocked)" />
+        <div class="field-overlay" hidden="@(!FieldState?.IsBlocked ?? true)" />
         @for (int j = 0; j < _displayedData.GetLength(1); j++)
         {
             <div class="field-line">
@@ -17,18 +17,14 @@
 }
 
 @code {
-    private FieldState _fieldState;
-    private Pixel[,] _displayedData;
+    private Pixel[,]? _displayedData;
 
     [Parameter]
-    public FieldState FieldState
+    public FieldState? FieldState { get; set; }
+
+    protected override void OnParametersSet()
     {
-        get => _fieldState;
-        set
-        {
-            _fieldState = value;
-            if (_fieldState != null)
-                _displayedData = (Pixel[,])_fieldState;
-        }
+        if (FieldState != null)
+            _displayedData = (Pixel[,])FieldState;
     }
 }
