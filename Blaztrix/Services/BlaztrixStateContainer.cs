@@ -1,9 +1,8 @@
 ﻿using Blaztrix.Core;
-using System;
 
 namespace Blaztrix.Services
 {
-    public class TetrisStateContainer
+    public class BlaztrixStateContainer
     {
         private bool _settingsAccepted;
         private Session _session;
