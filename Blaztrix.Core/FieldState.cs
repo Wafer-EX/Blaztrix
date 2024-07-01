@@ -1,4 +1,5 @@
 ﻿using Blaztrix.Core.Elements;
+using Blaztrix.Core.Enums;
 using System.Drawing;
 
 namespace Blaztrix.Core
@@ -38,7 +39,7 @@ namespace Blaztrix.Core
             GenerateNextBlock();
         }
 
-        public void Update(Direction direction)
+        public void Update(Directions direction)
         {
             if (!IsBlocked)
             {
@@ -65,7 +66,7 @@ namespace Blaztrix.Core
             }
         }
 
-        private void MoveBlock(Direction direction)
+        private void MoveBlock(Directions direction)
         {
             int figureWidth = CurrentBlock.Figure.GetLength(0);
             int figureHeight = CurrentBlock.Figure.GetLength(1);
@@ -74,20 +75,20 @@ namespace Blaztrix.Core
 
             switch (direction)
             {
-                case Direction.Left:
+                case Directions.Left:
                     if (CurrentBlock.Position.X != 0 && CanBePlaced(CurrentBlock.Figure, offsetX: -1))
                         CurrentBlock.Position = new Point(CurrentBlock.Position.X - 1, CurrentBlock.Position.Y);
                     break;
-                case Direction.Right:
+                case Directions.Right:
                     if (CurrentBlock.Position.X != fieldWidth - figureWidth && CanBePlaced(CurrentBlock.Figure, offsetX: 1))
                         CurrentBlock.Position = new Point(CurrentBlock.Position.X + 1, CurrentBlock.Position.Y);
                     break;
-                case Direction.Down:
+                case Directions.Down:
                     if (CurrentBlock.Position.Y != fieldHeight - figureHeight && CanBePlaced(CurrentBlock.Figure, offsetY: 1))
                         CurrentBlock.Position = new Point(CurrentBlock.Position.X, CurrentBlock.Position.Y + 1);
                     else PlaceBlock();
                     break;
-                case Direction.Around:
+                case Directions.Around:
                     RotateBlock();
                     break;
             }
@@ -183,18 +184,18 @@ namespace Blaztrix.Core
             LineDeleted?.Invoke();
         }
 
-        public static explicit operator Pixel[,](FieldState fieldState)
+        public static explicit operator PixelStates[,](FieldState fieldState)
         {
             int fieldWidth = fieldState.Field.GetLength(0);
             int fieldHeight = fieldState.Field.GetLength(1);
-            var pixelStates = new Pixel[fieldWidth, fieldHeight];
+            var pixelStates = new PixelStates[fieldWidth, fieldHeight];
 
             for (int heightPoint = 0; heightPoint < fieldHeight; heightPoint++)
             {
                 for (int widthPoint = 0; widthPoint < fieldWidth; widthPoint++)
                 {
                     if (fieldState.Field[widthPoint, heightPoint])
-                        pixelStates[widthPoint, heightPoint] = Pixel.Filled;
+                        pixelStates[widthPoint, heightPoint] = PixelStates.Filled;
                 }
             }
 
@@ -207,7 +208,7 @@ namespace Blaztrix.Core
                 for (int widthPoint = 0; widthPoint < figureWidth; widthPoint++)
                 {
                     if (fieldState.CurrentBlock.Figure[widthPoint, heightPoint])
-                        pixelStates[blockPosition.X + widthPoint, blockPosition.Y + heightPoint] = Pixel.CurrentBlock;
+                        pixelStates[blockPosition.X + widthPoint, blockPosition.Y + heightPoint] = PixelStates.CurrentBlock;
                 }
             }
 

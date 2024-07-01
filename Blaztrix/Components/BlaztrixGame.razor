@@ -1,4 +1,5 @@
 ﻿@using Blaztrix.Core;
+@using Blaztrix.Core.Enums
 @using Blaztrix.Models
 @using Blaztrix.Services
 @using Microsoft.Extensions.Localization
@@ -75,10 +76,10 @@ else
         {
             switch (e.Key)
             {
-                case "ArrowLeft": BlaztrixState.Session.Control(Direction.Left); break;
-                case "ArrowRight": BlaztrixState.Session.Control(Direction.Right); break;
-                case "ArrowDown": BlaztrixState.Session.Control(Direction.Down); break;
-                case " ": BlaztrixState.Session.Control(Direction.Around); break;
+                case "ArrowLeft": BlaztrixState.Session.Control(Directions.Left); break;
+                case "ArrowRight": BlaztrixState.Session.Control(Directions.Right); break;
+                case "ArrowDown": BlaztrixState.Session.Control(Directions.Down); break;
+                case " ": BlaztrixState.Session.Control(Directions.Around); break;
             }
         }
     }
