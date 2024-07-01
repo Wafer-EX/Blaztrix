@@ -32,22 +32,22 @@ li {
     align-items: center;
 }
 
-.indicator {
+.state-indicator {
     font-size: 14px;
 }
 
-.indicator-settings {
+.state-indicator-not-initialized {
     color: #353535;
 }
 
-.indicator-in-game {
+.state-indicator-in-game {
     color: #00ff8b
 }
 
-.indicator-paused {
+.state-indicator-paused {
     color: #ffe24d;
 }
 
-.indicator-lost {
+.state-indicator-lost {
     color: #ff6161
 }
