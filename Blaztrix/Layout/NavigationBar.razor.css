@@ -31,3 +31,23 @@ li {
     justify-content: left;
     align-items: center;
 }
+
+.indicator {
+    font-size: 14px;
+}
+
+.indicator-settings {
+    color: #353535;
+}
+
+.indicator-in-game {
+    color: #00ff8b
+}
+
+.indicator-paused {
+    color: #ffe24d;
+}
+
+.indicator-lost {
+    color: #ff6161
+}
