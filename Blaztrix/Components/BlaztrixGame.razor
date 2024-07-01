@@ -6,7 +6,7 @@
 @inject BlaztrixStateContainer BlaztrixState
 @inject IStringLocalizer<App> Localize
 
-@if (_areSettingsAccepted)
+@if (_areSettingsAccepted || BlaztrixState.CurrentState != CurrentState.NotInitialized)
 {
     <PageContainer EnableContentContainer=false>
         <div id="session-container">
