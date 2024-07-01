@@ -1,13 +1,8 @@
 ﻿@using Blaztrix.Services
 
-<span class="indicator @GetStyle()">
-    @Text
-</span>
+<span class="indicator @GetStyle()">●</span>
 
 @code {
-    [Parameter]
-    public string Text { get; set; }
-
     [Parameter]
     public CurrentState State { get; set; }
 
