@@ -9,7 +9,7 @@
             <div class="field-line">
                 @for (int i = 0; i < _displayedData.GetLength(0); i++)
                 {
-                    <PixelState State="_displayedData[i, j]" />
+                    <div class="pixel @GetPixelStyle(_displayedData[i, j])" />
                 }
             </div>
         }
@@ -26,5 +26,15 @@
     {
         if (FieldState != null)
             _displayedData = (Pixel[,])FieldState;
+    }
+
+    private string? GetPixelStyle(Pixel pixel)
+    {
+        return pixel switch
+        {
+            Pixel.Filled => "pixel-filled",
+            Pixel.CurrentBlock => "pixel-current-block",
+            _ => null
+        };
     }
 }
