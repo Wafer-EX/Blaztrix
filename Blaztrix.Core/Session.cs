@@ -1,4 +1,6 @@
-﻿namespace Blaztrix.Core
+﻿using Blaztrix.Core.Enums;
+
+namespace Blaztrix.Core
 {
     public class Session
     {
@@ -61,7 +63,7 @@
                 {
                     while (!FieldState.IsBlocked)
                     {
-                        FieldState.Update(Direction.Down);
+                        FieldState.Update(Directions.Down);
                         AutoMoved?.Invoke();
                         await Task.Delay(1000 / Speed, _cancelAutoMoveSource.Token);
                     }
@@ -75,6 +77,6 @@
             _cancelAutoMoveSource.Cancel();
         }
 
-        public void Control(Direction direction) => FieldState.Update(direction);
+        public void Control(Directions direction) => FieldState.Update(direction);
     }
 }

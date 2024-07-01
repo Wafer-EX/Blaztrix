@@ -1,12 +1,13 @@
 ﻿@using Blaztrix.Core;
-@using Blaztrix.Components.Parts;
+@using Blaztrix.Core.Enums
+@using Blaztrix.Models
 @using Blaztrix.Services
 @using Microsoft.Extensions.Localization
 
 @inject BlaztrixStateContainer BlaztrixState
 @inject IStringLocalizer<App> Localize
 
-@if (BlaztrixState.SettingsAccepted)
+@if (BlaztrixState.CurrentState != CurrentState.NotInitialized)
 {
     <PageContainer EnableContentContainer=false>
         <div id="session-container">
@@ -14,7 +15,7 @@
                 <p hidden="@(!BlaztrixState.Session.FieldState.IsBlocked)">
                     @(BlaztrixState.Session.IsLost ? Localize["You are lost"] : Localize["Paused"])
                 </p>
-                <Field FieldState="BlaztrixState.Session.FieldState" />
+                <BlaztrixField FieldState="BlaztrixState.Session.FieldState" />
             </div>
             <div id="session-right-container">
                 <div id="session-info-container">
@@ -31,7 +32,7 @@
                 </div>
                 <div id="session-control-container">
                     <div class="button-container">
-                        <button class="button" hidden="@(!BlaztrixState.Session.IsLost)" @onclick="() => BlaztrixState.SettingsAccepted = false">
+                        <button class="button" hidden="@(!BlaztrixState.Session.IsLost)" @onclick="Restart">
                             @Localize["Restart"]
                         </button>
                         <button class="button" hidden="@BlaztrixState.Session.IsLost" @onclick="Pause">
@@ -47,61 +48,63 @@ else
 {
     <PageContainer Title="@Localize["Initial Blaztrix settings"]">
        <div id="session-settings-container">
-            <InitialSettings @ref="_initialSettingsComponent" />
+            <EditForm class="form" Model="_fieldModel" OnValidSubmit="@ApplySettings">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="input-text-container">
+                    <InputNumber @bind-Value="_fieldModel.Width" class="input-text" placeholder="@Localize["Width"]" />
+                </div>
+                <div class="input-text-container">
+                    <InputNumber @bind-Value="_fieldModel.Height" class="input-text" placeholder="@Localize["Height"]" />
+                </div>
+                <div class=button-container>
+                    <input class="button" type="submit" value="@Localize["Apply"]" />
+                </div>
+            </EditForm>
        </div>
     </PageContainer>
 }
 
 @code {
     private ElementReference _fieldContainer;
-    private static InitialSettings _initialSettingsComponent;
-
-    protected override void OnInitialized()
-    {
-        if (_initialSettingsComponent == null)
-            _initialSettingsComponent = new InitialSettings();
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (BlaztrixState.Session != null && BlaztrixState.SettingsAccepted)
-        {
-            BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
-            if (firstRender)
-            {
-                BlaztrixState.Session.FieldUpdated += StateHasChanged;
-                _fieldContainer.FocusAsync();
-            }
-        }
-        else
-        {
-            _initialSettingsComponent.Applied = new EventCallback(this, (Action)delegate
-            {
-                BlaztrixState.Session = new Session(_initialSettingsComponent.Width, _initialSettingsComponent.Height, 1);
-                BlaztrixState.Session.FieldUpdated += StateHasChanged;
-                BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
-
-                BlaztrixState.SettingsAccepted = true;
-                BlaztrixState.Session.StartInBackground();
-            });
-        }
-    }
+    private BlaztrixFieldModel _fieldModel = new();
 
     private void KeyHandler(KeyboardEventArgs e)
     {
-        switch (e.Key)
+        if (BlaztrixState.Session != null)
         {
-            case "ArrowLeft": BlaztrixState.Session.Control(Direction.Left); break;
-            case "ArrowRight": BlaztrixState.Session.Control(Direction.Right); break;
-            case "ArrowDown": BlaztrixState.Session.Control(Direction.Down); break;
-            case " ": BlaztrixState.Session.Control(Direction.Around); break;
+            switch (e.Key)
+            {
+                case "ArrowLeft": BlaztrixState.Session.Control(Directions.Left); break;
+                case "ArrowRight": BlaztrixState.Session.Control(Directions.Right); break;
+                case "ArrowDown": BlaztrixState.Session.Control(Directions.Down); break;
+                case " ": BlaztrixState.Session.Control(Directions.Around); break;
+            }
         }
+    }
+
+    private void ApplySettings()
+    {
+        int newFieldWidth = _fieldModel.Width ?? throw new NullReferenceException();
+        int newFieldHeight = _fieldModel.Height ?? throw new NullReferenceException();
+
+        BlaztrixState.Session = new Session(newFieldWidth, newFieldHeight, 1);
+        BlaztrixState.Session.FieldUpdated += StateHasChanged;
+        BlaztrixState.Session.AutoMoved += () => _fieldContainer.FocusAsync();
+        BlaztrixState.Session.StartInBackground();
     }
 
     private void Pause()
     {
-        if (BlaztrixState.CurrentState == CurrentState.Paused)
-            BlaztrixState.Session.StartInBackground();
-        else BlaztrixState.Session.Stop();
+        if (BlaztrixState.Session != null)
+        {
+            if (BlaztrixState.CurrentState == CurrentState.Paused)
+                BlaztrixState.Session.StartInBackground();
+            else
+                BlaztrixState.Session.Stop();
+        }
     }
+
+    private void Restart() => BlaztrixState.Session = null;
 }

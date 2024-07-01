@@ -31,3 +31,7 @@ li {
     justify-content: left;
     align-items: center;
 }
+
+.state-indicator {
+    font-size: 14px;
+}

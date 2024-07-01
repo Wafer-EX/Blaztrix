@@ -1,4 +1,7 @@
 ﻿@using Blaztrix.Core
+@using Blaztrix.Core.Enums
+
+<!-- TODO: replace with canvas? It was laggy when I tried it... -->
 
 @if (_displayedData != null)
 {
@@ -17,7 +20,7 @@
 }
 
 @code {
-    private Pixel[,]? _displayedData;
+    private PixelStates[,]? _displayedData;
 
     [Parameter]
     public FieldState? FieldState { get; set; }
@@ -25,15 +28,15 @@
     protected override void OnParametersSet()
     {
         if (FieldState != null)
-            _displayedData = (Pixel[,])FieldState;
+            _displayedData = (PixelStates[,])FieldState;
     }
 
-    private string? GetPixelStyle(Pixel pixel)
+    private string? GetPixelStyle(PixelStates pixelState)
     {
-        return pixel switch
+        return pixelState switch
         {
-            Pixel.Filled => "pixel-filled",
-            Pixel.CurrentBlock => "pixel-current-block",
+            PixelStates.Filled => "pixel-filled",
+            PixelStates.CurrentBlock => "pixel-current-block",
             _ => null
         };
     }

@@ -14,8 +14,7 @@
         </li>
         <li class="button-container">
             <NavLink class="button" href="/game">
-                @Localize["Blaztrix"]
-                &nbsp;<StateIndicator State=BlaxtrixState.CurrentState Text="●" />
+                @Localize["Blaztrix"] <span class="state-indicator" style="color:@GetStateIndicatorColor()">●</span>
             </NavLink>
         </li>
         <li class="button-container">
@@ -30,5 +29,16 @@
     protected override void OnInitialized()
     {
         BlaxtrixState.StateChanged += StateHasChanged;
+    }
+
+    private string GetStateIndicatorColor()
+    {
+        return BlaxtrixState.CurrentState switch
+        {
+            CurrentState.InGame => "#00ff8b",
+            CurrentState.Paused => "#ffe24d",
+            CurrentState.Lost => "#ff6161",
+            _ => "#353535",
+        };
     }
 }
